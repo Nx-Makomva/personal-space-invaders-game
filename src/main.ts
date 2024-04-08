@@ -28,7 +28,7 @@ const hero: Character = {
   x: -30, // X-coordinate of the character's position
   y: -100, // Y-coordinate of the character's position
   width: 750, // Width of the character's box container
-  height: 150
+  height: 50
 }
 
 if (!heroCharacter){
@@ -50,23 +50,36 @@ const heroImagesRun = [
   'src/resources/character-sprites/mc-run(5).png',
   'src/resources/character-sprites/mc-run(6).png',
   'src/resources/character-sprites/mc-run(7).png',
+  'src/resources/character-sprites/mc-run(7).png',
+  'src/resources/character-sprites/mc-run(7).png',
 ]
 
 
 
 let currentImageIndex = 0;
-const runFrameRate = 9;
+const runFrameRate = 19;
 
 
-const animateRun = () => {
-  heroCharacter.style.width = '950px';
-  heroCharacter.style.height = '50px';
+const animateHero = () => {
+  heroCharacter.style.width = `${hero.width}px`;
+  heroCharacter.style.height = `${hero.height}px`;
   heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
   currentImageIndex = (currentImageIndex + 1) % heroImagesRun.length;
-    setTimeout(animateRun, 1000 / runFrameRate);
+    setTimeout(animateHero, 1000 / runFrameRate);
 
 }
 
+
+animateHero();
+
+
+const handleSpacebarPress = (event: KeyboardEvent) => {
+  console.log(event);
+  
+  // turn off jump animation here as soon as its been triggered
+}
+
+document.addEventListener('keydown', handleSpacebarPress);
 
 
 
