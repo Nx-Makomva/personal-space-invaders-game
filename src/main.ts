@@ -22,58 +22,28 @@ import { Character } from './types'
       - 
 */
 
-const canvas = document.querySelector<HTMLCanvasElement>('#canvas')!;
-const context = canvas.getContext('2d')!;
+const heroCharacter = document.querySelector<HTMLDivElement>('#hero');
 
-if (!canvas) {
-  throw new Error('Issue with selector');
+if (!heroCharacter){
+  throw new Error('Issues with selector');
 }
 
-if (canvas) {
-  canvas.width = canvas.offsetWidth
-  canvas.height = canvas.offsetHeight
-
-} else {
-  console.error('Canvas element not found');
-  
-}
-  
-  const heroImage = [
-    'src/resources/character-sprites/mc-run(1).png',
-    'src/resources/character-sprites/mc-run(2).png',
-    'src/resources/character-sprites/mc-run(3).png',
-  ]
-
- 
-  let hero: Character = {
-    x: 0,
-    y: 250,
-    width: 100,
-    height: 50,
-    };
-
-
-
-let currentFrameIndex = 0;
-
-const heroImages = heroImage.map((img) => {
-  let imageShowing = new Image();
-  imageShowing.src = img;
-  return imageShowing;
-})
-
-const animateHeroImage = () => {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (context){
-      context.drawImage(heroImages[currentFrameIndex], hero.x, hero.y, hero.width, hero.height)
-    }
-
-      currentFrameIndex = (currentFrameIndex + 1) % heroImages.length;
-      setTimeout(animateHeroImage, 100)
-   
+const handleSpacebarPress = (event: KeyboardEvent) => {
+  if (event.key === ' ') {
+    console.log(event);
   }
+  
+}
 
-  animateHeroImage();
+document.addEventListener('keypress', handleSpacebarPress);
 
- 
+
+
+
+  // NEXT STEPS:
+ // add event listeners for character jumping - SPACEBAR key press
+ // add colleagues to the scene and handle their movement
+ // handle collision events with colleagues 
+ // add score counter based on time spent survivng
+ // add game over screen and handle restarting game
+ // add start screen to initialise game only when player clicks start
