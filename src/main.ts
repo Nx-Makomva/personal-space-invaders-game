@@ -24,18 +24,51 @@ import { Character } from './types'
 
 const heroCharacter = document.querySelector<HTMLDivElement>('#hero');
 
+const hero: Character = {
+  x: -30, // X-coordinate of the character's position
+  y: -100, // Y-coordinate of the character's position
+  width: 750, // Width of the character's box container
+  height: 150
+}
+
 if (!heroCharacter){
   throw new Error('Issues with selector');
 }
 
-const handleSpacebarPress = (event: KeyboardEvent) => {
-  if (event.key === ' ') {
-    console.log(event);
-  }
-  
+// const handleStartGame = (event: MouseEvent) => {
+//   animateHero();
+// }
+
+// beginGameButton.addEventListener('clcik', handleStartGame);
+
+
+const heroImagesRun = [
+  'src/resources/character-sprites/mc-run(1).png',
+  'src/resources/character-sprites/mc-run(2).png',
+  'src/resources/character-sprites/mc-run(3).png',
+  'src/resources/character-sprites/mc-run(4).png',
+  'src/resources/character-sprites/mc-run(5).png',
+  'src/resources/character-sprites/mc-run(6).png',
+  'src/resources/character-sprites/mc-run(7).png',
+]
+
+
+
+let currentImageIndex = 0;
+const runFrameRate = 9;
+
+
+const animateRun = () => {
+  heroCharacter.style.width = '950px';
+  heroCharacter.style.height = '50px';
+  heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
+  currentImageIndex = (currentImageIndex + 1) % heroImagesRun.length;
+    setTimeout(animateRun, 1000 / runFrameRate);
+
 }
 
-document.addEventListener('keypress', handleSpacebarPress);
+
+
 
 
 

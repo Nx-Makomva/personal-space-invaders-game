@@ -19,25 +19,6 @@
   width: 100px;
   position: relative;
   top: 250px;
-  background-image: url("src/resources/character-sprites/mc-run(1).png");
-  background-size: cover;
-  animation: animateHero 0.35s steps(10) infinite;
-}
-
-@keyframes animateHero {
-  20% {
-    background-image: url("src/resources/character-sprites/mc-run(1).png");
-  }
-  40% {
-    background-image: url("src/resources/character-sprites/mc-run(2).png");
-  }
-  60% {
-    background-image: url("src/resources/character-sprites/mc-run(2).png");
-  }
-  80% {
-    background-image: url("src/resources/character-sprites/mc-run(3).png");
-  }
-  100% {
-    background-image: url("src/resources/character-sprites/mc-run(3).png");
-  }
+  background-size: contain;
+  background-repeat: no-repeat;
 }/*# sourceMappingURL=styles.css.map */
