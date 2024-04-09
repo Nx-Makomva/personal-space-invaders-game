@@ -25,7 +25,7 @@ import { Character } from './types'
 const heroCharacter = document.querySelector<HTMLDivElement>('#hero');
 
 const hero: Character = {
-  x: -30, // X-coordinate of the character's position
+  x: 30, // X-coordinate of the character's position
   y: -100, // Y-coordinate of the character's position
   width: 750, // Width of the character's box container
   height: 50
@@ -46,19 +46,16 @@ const heroImagesRun = [
   'src/resources/character-sprites/mc-run(1).png',
   'src/resources/character-sprites/mc-run(2).png',
   'src/resources/character-sprites/mc-run(3).png',
-  'src/resources/character-sprites/mc-run(4).png',
-  'src/resources/character-sprites/mc-run(5).png',
-  'src/resources/character-sprites/mc-run(6).png',
-  'src/resources/character-sprites/mc-run(7).png',
-  'src/resources/character-sprites/mc-run(7).png',
-  'src/resources/character-sprites/mc-run(7).png',
+
 ]
 
 
-
+const runFrameRate = 8;
 let currentImageIndex = 0;
-const runFrameRate = 19;
-
+let isJumping = false;
+let jumpHeight = 100; // Adjust as needed
+let jumpSpeed = 15; // Adjust as needed
+let gravity = 5; // Adjust as needed
 
 const animateHero = () => {
   heroCharacter.style.width = `${hero.width}px`;
@@ -66,7 +63,6 @@ const animateHero = () => {
   heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
   currentImageIndex = (currentImageIndex + 1) % heroImagesRun.length;
     setTimeout(animateHero, 1000 / runFrameRate);
-
 }
 
 
@@ -74,16 +70,36 @@ animateHero();
 
 
 const handleSpacebarPress = (event: KeyboardEvent) => {
-  console.log(event);
-  
-  // turn off jump animation here as soon as its been triggered
+  if (event.key === ' ' && !isJumping) {
+    isJumping = true;
+    jump();
+  }
 }
-
+    
 document.addEventListener('keydown', handleSpacebarPress);
 
 
+const fall = () => {
+  if (hero.y < 0) { // Check if the character is above the ground level
+    hero.y += gravity; // Increase the y-position of the character to simulate gravity
+    heroCharacter.style.top = `${hero.y}px`;
+    setTimeout(fall, 1000 / 60); // Recursively call fall function for smooth animation
+  } else {
+    hero.y = 0; // Ensure the character doesn't go below the ground level
+    heroCharacter.style.top = `${hero.y}px`;
+    isJumping = false; // Set isJumping to false when the character reaches the ground
+  }
+}
 
-
+const jump = () => {
+  if (hero.y >= -jumpHeight) {
+    hero.y -= jumpSpeed;
+    heroCharacter.style.top = `${hero.y}px`;
+    setTimeout(jump, 1000 / 60);
+  } else {
+    fall();
+  }
+}
 
 
   // NEXT STEPS:
