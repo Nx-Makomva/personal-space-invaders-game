@@ -1,5 +1,6 @@
-import './resources/styles/styles.css'
-import { Character } from './types'
+import '/src/resources/styles/styles.scss';
+import { Character } from './types';
+
 // import confetti from 'canvas-confetti';
  
 /*
@@ -22,22 +23,88 @@ import { Character } from './types'
       - 
 */
 
+/////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>('#hero');
 
+const hero: Character = {
+  x: 30, // X-coordinate of the character's position
+  y: 0, // Y-coordinate of the character's position
+  width: 350, // Width of the character's box container
+  height: 50
+}
+/////////////////////////// NULL EXCEPTIONS //////////////////////////////
 if (!heroCharacter){
   throw new Error('Issues with selector');
 }
 
-const handleSpacebarPress = (event: KeyboardEvent) => {
-  if (event.key === ' ') {
-    console.log(event);
-  }
-  
+/////////////////////////// START GAME //////////////////////////////////
+// const handleStartGame = (event: MouseEvent) => {
+//   animateHero();
+// }
+
+// beginGameButton.addEventListener('clcik', handleStartGame);
+
+/////////////////////////// VARIABLES //////////////////////////////////
+const heroImagesRun = [
+  'src/resources/character-sprites/mc-run(1).png',
+  'src/resources/character-sprites/mc-run(2).png',
+  'src/resources/character-sprites/mc-run(3).png',
+]
+
+const runFrameRate = 10;
+let currentImageIndex = 0;
+let isJumping = false;
+let jumpHeight = 100; // Adjust as needed
+let jumpSpeed = 10; // Adjust as needed
+let gravity = 6; // Adjust as needed
+
+/////////////////////////// HERO ANIMATION //////////////////////////////////
+
+const animateHero = () => {
+  heroCharacter.style.width = `${hero.width}px`;
+  heroCharacter.style.height = `${hero.height}px`;
+  heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
+  currentImageIndex = (currentImageIndex + 1) % heroImagesRun.length;
+    setTimeout(animateHero, 1000 / runFrameRate);
 }
 
-document.addEventListener('keypress', handleSpacebarPress);
+animateHero();
+
+/////////////////////////// HERO JUMP HANDLER AND EVENT LISTENER //////////////////////////////////
+
+const handleSpacebarPress = (event: KeyboardEvent) => {
+  console.log(event);
+  
+  if (event.key === ' ' && !isJumping) {
+    isJumping = true;
+    jump();
+  }
+}
+    
+document.addEventListener('keydown', handleSpacebarPress);
 
 
+const fall = () => {
+  if (hero.y < 0) { // Check if the character is above the ground level
+    hero.y += gravity; // Increase the y-position of the character to simulate gravity
+    heroCharacter.style.top = `${hero.y}px`;
+    setTimeout(fall, 1000 / 60); 
+  } else {
+    hero.y = 0; 
+    heroCharacter.style.top = `${hero.y}px`;
+    isJumping = false; // Set isJumping to false when the character reaches the ground
+  }
+}
+
+const jump = () => {
+  if (hero.y >= -jumpHeight) {
+    hero.y -= jumpSpeed;
+    heroCharacter.style.top = `${hero.y}px`;
+    setTimeout(jump, 1000 / 60);
+  } else {
+    fall();
+  }
+}
 
 
   // NEXT STEPS:

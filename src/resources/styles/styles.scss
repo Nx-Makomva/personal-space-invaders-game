@@ -1,3 +1,5 @@
+@use './animations' as *;
+
 * {
   margin: 0;
   padding: 0;
@@ -8,27 +10,26 @@
 .game__container {
   margin: auto;
   margin-top: 100px;
+  margin-bottom: 50px;
   display: flex;
-  background-color: antiquewhite;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: darken(rgb(0, 0, 0), $amount: 0);
   width: 720px;
   height: 300px;
-  border-bottom: 1px dashed black;
+  border-bottom: 2px dashed gray;
 }
+
+
 
 #hero {
-  height: 50px;
-  width: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
   position: relative;
-  top: 250px;
-  background-image: url('src/resources/character-sprites/mc-run(1).png');
-  background-size: cover;
-  animation: animateHero 0.35s steps(10) infinite;
 }
 
-@keyframes animateHero {
-  20% { background-image: url('src/resources/character-sprites/mc-run(1).png'); }
-  40% { background-image: url('src/resources/character-sprites/mc-run(2).png'); }
-  60% { background-image: url('src/resources/character-sprites/mc-run(2).png'); }
-  80% {background-image: url('src/resources/character-sprites/mc-run(3).png'); }
-  100% {background-image: url('src/resources/character-sprites/mc-run(3).png'); }
+.hero__container {
+  border: solid red 1px;
+  height: 50px;
+  width: 200px;
 }
