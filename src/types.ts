@@ -13,3 +13,13 @@ export type Character = {
   height: number; 
   img?: string// Height of the character's box container
 }
+
+export type CollisionBox = {
+  width: number,
+  height: number,
+  border?: {
+    thickness: string,
+    style: string,
+    color?: string,
+  }
+}

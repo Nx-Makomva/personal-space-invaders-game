@@ -1,5 +1,5 @@
 import '/src/resources/styles/styles.scss';
-import { Character } from './types';
+import { Character, CollisionBox } from './types';
 
 // import confetti from 'canvas-confetti';
  
@@ -26,10 +26,10 @@ import { Character } from './types';
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>('#hero');
 const npcCharacter12 = document.querySelector<HTMLDivElement>('.npc-12');
-const collisionBoxElement = document.querySelector<HTMLDivElement>('.npc__collision-box');
+const npcCollision = document.querySelector<HTMLDivElement>('.npc__collision-box');
 
 /////////////////////////// NULL EXCEPTIONS //////////////////////////////
-if (!heroCharacter || !npcCharacter12 || !collisionBoxElement) {
+if (!heroCharacter || !npcCharacter12 || !npcCollision) {
   throw new Error('Issues with selector');
 }
 
@@ -51,16 +51,19 @@ const heroImagesRun = [
 ]
 
 const runFrameRate = 10;
+const npcFrameRate = 8;
 let currentImageIndex = 0;
 let isJumping = false;
 let jumpHeight = 80; 
 let jumpSpeed = 10; 
 let jumpForwardDash = 4;
-let gravity = 3; 
+let gravity = 2.5; 
 let jumpReturnPosition = 0;
-let npcMovementSpeed = 5;
+let npcMovementSpeed = 13;
 
 /////////////////////////// CHARACTER OBJECTS //////////////////////////////
+
+///// Move these objects to separate files /////
 const hero: Character = {
   x: 0, // X-coordinate of the character's position
   y: 0, // Y-coordinate of the character's position
@@ -69,45 +72,19 @@ const hero: Character = {
 }
 
 const npc12: Character = {
-  x: 300, // X-coordinate of the character's position
+  x: 200, // X-coordinate of the character's position
   y: 240, // Y-coordinate of the character's position
   width: 20, // Width of the character's box container
   height: 40,
   img: npcCharacterSprites[6],
 }
 
-const collisionBox = {
-  x: npc12.x,
-  y: npc12.y,
-  width: npc12.width,
-  height: npc12.height,
-  border: {
-    thickness: '1px',
-    style: 'solid',
-    color: 'red',
-  }
+const heroCollision: CollisionBox = {
+  // create a collision box for the hero so npc character 
+  // has a reference to crash into something
+
+
 }
-
-collisionBoxElement.style.position = 'absolute';
-collisionBoxElement.style.width = `${collisionBox.width}px`;
-collisionBoxElement.style.height = `${collisionBox.height}px`; 
-collisionBoxElement.style.border = `${collisionBox.border.thickness} ${collisionBox.border.style} ${collisionBox.border.color}`;
-
-
-console.log(collisionBoxElement.style.border);
-
-
-// console.log(collisionBoxElement);
-
-const npcRun = () => {
-  npcCharacter12.style.position = 'absolute';
-  npcCharacter12.style.width = `${npc12.width}px`;
-  npcCharacter12.style.height = `${npc12.height}px`;
-  npcCharacter12.style.left = `${npc12.x}px`;
-  npcCharacter12.style.top = `${npc12.y}px`;
-  npcCharacter12.style.backgroundImage = `url('${npc12.img}')`;
-}
-npcRun();
 
 /////////////////////////// START GAME //////////////////////////////////
 // const handleStartGame = (event: MouseEvent) => {
@@ -172,6 +149,47 @@ const jump = () => {
     fall();
   }
 }
+
+npcCharacter12.style.position = 'absolute';
+npcCharacter12.style.width = `${npc12.width}px`;
+npcCharacter12.style.height = `${npc12.height}px`;
+npcCharacter12.style.left = `${npc12.x}px`;
+npcCharacter12.style.top = `${npc12.y}px`;
+npcCharacter12.style.backgroundImage = `url('${npc12.img}')`;
+// console.log(collisionBoxElement);
+
+const npcRun = () => {
+
+  npc12.x -= npcMovementSpeed;
+  npcCharacter12.style.left = `${npc12.x}px`;
+    setTimeout(npcRun, 1000 / npcFrameRate);
+
+  // if (`${npc12.x}px` <= `${heroCharacter.style.right}px`){
+  //   npcCharacter12.style.display = 'none';
+  // }
+console.log(`${npc12.x}px`);
+console.log(`${heroCharacter.style.right}px`);
+console.log(`${hero.x}`);
+
+
+
+  // Some conditionals in here to switch out the picture of what npc is being used.
+  // The change should occur when collision box hits far left of the game container
+  // How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
+  // but with at least 250px distance between them.
+
+// console.log(npc12.x);
+// console.log(npcCharacter12.style.left);
+
+}
+// npcRun(); 
+
+
+
+
+
+
+
 
 
 
