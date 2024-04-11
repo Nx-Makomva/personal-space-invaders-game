@@ -41,7 +41,6 @@ const heroFrameRate = 10;
 const npcFrameRate = 8;
 let currentImageIndex = 0;
 let isJumping = false;
-let isCollision = false;
 let jumpHeight = 100; 
 let jumpSpeed = 10; 
 let jumpForwardDash = 4;
@@ -149,6 +148,7 @@ const jump = () => {
 
 
 const checkCollision = () => {
+  
   const heroRect = heroCollisionBox.getBoundingClientRect();
   const npcRect = npcCharacter12.getBoundingClientRect();
   if (
@@ -165,24 +165,25 @@ const checkCollision = () => {
     npcCharacter12.style.width = '50px';
     npcCharacter12.style.height = '50px';
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
-    
+  
     setTimeout(() => {
+      // isCollision = true;
       npcCharacter12.style.display = 'none';
       gravity = 2.5;
       jumpForwardDash = 4;
-      isCollision = true;
     }, 500)  
   }
 };  
 
 const npcRun = () => {
+  
   const npcBounds = npcCharacter12.getBoundingClientRect();
 
-  if (npcBounds.x <= 0 ){ 
-    // || isCollision === true
+  if (npcBounds.x <= 0){ 
+    npcCharacter12.style.display = 'block';
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[1]}')`;
-    npc12.x =window.innerWidth;
-    // console.log(npc12.x); 
+    npc12.x = window.innerWidth;
+    console.log(npc12.x); 
 }
 
   npcCharacter12.style.position = 'absolute';
@@ -195,7 +196,7 @@ const npcRun = () => {
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
   checkCollision();
-    // setTimeout(npcRun, 1000 / npcFrameRate);
+    setTimeout(npcRun, 1000 / npcFrameRate);
 }
 
 npcRun(); 
