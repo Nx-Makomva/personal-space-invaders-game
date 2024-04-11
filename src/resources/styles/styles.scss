@@ -29,11 +29,11 @@ body {
   height: 100%;
   padding-top: 240px;
   border: 10px solid rgb(253, 115, 138);
-  background-image: url('/src/resources/environment/office-run-1.png');
+  background-image: url('/src/resources/environment/office(2).png');
   filter: brightness(140%);
-  background-size: 10000px;
-  background-repeat: no-repeat;
-  animation: sceneMovement 15s linear infinite;
+  background-size: 2500px;
+  background-repeat: repeat;
+  animation: sceneMovement 8s linear infinite;
 }
 
 #hero {
@@ -41,31 +41,3 @@ body {
   background-repeat: no-repeat;
   position: relative;
 }
-
-// .hero__container {
-//   border: solid red 10px;
-//   height: 50px;
-//   width: 200px;
-// }
-
-// .npc-12 {
-//   border: 2px solid rgb(140, 115, 253);
-//   background-image: url('/src/resources/character-sprites/npc-8.png');
-//   filter: brightness(100%);
-//   background-size: contain;
-//   background-repeat: no-repeat;
-//   position: absolute;
-//   animation: npcMovement 4s linear infinite reverse;
-//   width: 40px;
-//   height: 40px;
-// }
-
-.npc-12 {
-  border: 1px solid yellowgreen;
-}
-
-// .npc__collision-box {
-//   border: 2px solid rgb(2, 10, 245);
-//   width: 40px;
-//   height: 40px;
-// }

@@ -1,5 +1,5 @@
 import '/src/resources/styles/styles.scss';
-import { Character, CollisionBox } from './types';
+import { Character } from './types';
 
 // import confetti from 'canvas-confetti';
  
@@ -27,13 +27,29 @@ import { Character, CollisionBox } from './types';
 const heroCharacter = document.querySelector<HTMLDivElement>('#hero');
 const npcCharacter12 = document.querySelector<HTMLDivElement>('.npc-12');
 const npcCollision = document.querySelector<HTMLDivElement>('.npc__collision-box');
+const heroCollisionBox = document.querySelector<HTMLDivElement>('.hero__collision-box');
 
 /////////////////////////// NULL EXCEPTIONS //////////////////////////////
-if (!heroCharacter || !npcCharacter12 || !npcCollision) {
+if (!heroCharacter || !npcCharacter12 || !npcCollision || !heroCollisionBox) {
   throw new Error('Issues with selector');
 }
 
 /////////////////////////// VARIABLES //////////////////////////////////
+
+
+const heroFrameRate = 10;
+const npcFrameRate = 8;
+let currentImageIndex = 0;
+let isJumping = false;
+let isCollision = false;
+let jumpHeight = 100; 
+let jumpSpeed = 10; 
+let jumpForwardDash = 4;
+let gravity = 2.5; 
+let jumpReturnPosition = 0;
+let npcMovementSpeed = 11;
+
+/////////////////////////// CHARACTER IMAGES //////////////////////////////
 const npcCharacterSprites = [
   'src/resources/character-sprites/npc-0.png',
   'src/resources/character-sprites/npc-2.png',
@@ -42,6 +58,7 @@ const npcCharacterSprites = [
   'src/resources/character-sprites/npc-8.png',
   'src/resources/character-sprites/npc-10.png',
   'src/resources/character-sprites/npc-12.png',
+  'src/resources/images/WHAM.png',
 ]
 
 const heroImagesRun = [
@@ -50,17 +67,6 @@ const heroImagesRun = [
   'src/resources/character-sprites/mc-run(3).png',
 ]
 
-const runFrameRate = 10;
-const npcFrameRate = 8;
-let currentImageIndex = 0;
-let isJumping = false;
-let jumpHeight = 80; 
-let jumpSpeed = 10; 
-let jumpForwardDash = 4;
-let gravity = 2.5; 
-let jumpReturnPosition = 0;
-let npcMovementSpeed = 13;
-
 /////////////////////////// CHARACTER OBJECTS //////////////////////////////
 
 ///// Move these objects to separate files /////
@@ -68,7 +74,7 @@ const hero: Character = {
   x: 0, // X-coordinate of the character's position
   y: 0, // Y-coordinate of the character's position
   width: 90, // Width of the character's box container
-  height: 50
+  height: 40
 }
 
 const npc12: Character = {
@@ -76,14 +82,6 @@ const npc12: Character = {
   y: 240, // Y-coordinate of the character's position
   width: 20, // Width of the character's box container
   height: 40,
-  img: npcCharacterSprites[6],
-}
-
-const heroCollision: CollisionBox = {
-  // create a collision box for the hero so npc character 
-  // has a reference to crash into something
-
-
 }
 
 /////////////////////////// START GAME //////////////////////////////////
@@ -93,6 +91,7 @@ const heroCollision: CollisionBox = {
 
 // beginGameButton.addEventListener('click', handleStartGame);
 
+heroCollisionBox.getBoundingClientRect()
 
 /////////////////////////// HERO ANIMATION //////////////////////////////////
 
@@ -101,7 +100,9 @@ const animateHero = () => {
   heroCharacter.style.height = `${hero.height}px`;
   heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
   currentImageIndex = (currentImageIndex + 1) % heroImagesRun.length;
-    setTimeout(animateHero, 1000 / runFrameRate);
+  heroCollisionBox.style.width = `${hero.width -30}px`;
+  heroCollisionBox.style.height = `${hero.height}px`
+    setTimeout(animateHero, 1000 / heroFrameRate);
 }
 
 animateHero();
@@ -109,18 +110,14 @@ animateHero();
 // on button press 
 // if statements // on button click switch array // have it all in one function and switch between using default value
 
-/////////////////////////// HERO JUMP HANDLER AND EVENT LISTENER //////////////////////////////////
+/////////////////////////// HERO JUMP AND FALL FUNCTIONS //////////////////////////////////
 
-const handleArrowUp = (event: KeyboardEvent) => {
-  
+document.addEventListener('keydown', (event: KeyboardEvent) => {
   if (event.key === 'ArrowUp'&& !isJumping) {
     isJumping = true;
     jump();
   }
-}
-    
-document.addEventListener('keydown', handleArrowUp);
-
+});
 
 const fall = () => {
   if (hero.y < 0) { // Check if the hero is above the ground level
@@ -150,53 +147,65 @@ const jump = () => {
   }
 }
 
-npcCharacter12.style.position = 'absolute';
-npcCharacter12.style.width = `${npc12.width}px`;
-npcCharacter12.style.height = `${npc12.height}px`;
-npcCharacter12.style.left = `${npc12.x}px`;
-npcCharacter12.style.top = `${npc12.y}px`;
-npcCharacter12.style.backgroundImage = `url('${npc12.img}')`;
-// console.log(collisionBoxElement);
+
+const checkCollision = () => {
+  const heroRect = heroCollisionBox.getBoundingClientRect();
+  const npcRect = npcCharacter12.getBoundingClientRect();
+  if (
+    heroRect.x+26 < npcRect.x + npcRect.width &&
+    heroRect.x+26 + heroRect.width-26 > npcRect.x &&
+    heroRect.y < npcRect.y + npcRect.height &&
+    heroRect.y + heroRect.height > npcRect.y
+  ) {
+    gravity = 50;
+    jumpForwardDash = 0;
+    heroCharacter.style.width = '70px';
+    heroCharacter.style.height = '70px';
+    heroCharacter.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
+    npcCharacter12.style.width = '50px';
+    npcCharacter12.style.height = '50px';
+    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
+    
+    setTimeout(() => {
+      npcCharacter12.style.display = 'none';
+      gravity = 2.5;
+      jumpForwardDash = 4;
+      isCollision = true;
+    }, 500)  
+  }
+};  
 
 const npcRun = () => {
+  const npcBounds = npcCharacter12.getBoundingClientRect();
+
+  if (npcBounds.x <= 0 ){ 
+    // || isCollision === true
+    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[1]}')`;
+    npc12.x =window.innerWidth;
+    // console.log(npc12.x); 
+}
+
+  npcCharacter12.style.position = 'absolute';
+  npcCharacter12.style.width = `${npc12.width}px`;
+  npcCharacter12.style.height = `${npc12.height}px`;
+  npcCharacter12.style.left = `${npc12.x}px`;
+  npcCharacter12.style.top = `${npc12.y}px`;
+  npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[6]}')`;
 
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
-    setTimeout(npcRun, 1000 / npcFrameRate);
+  checkCollision();
+    // setTimeout(npcRun, 1000 / npcFrameRate);
+}
 
-  // if (`${npc12.x}px` <= `${heroCharacter.style.right}px`){
-  //   npcCharacter12.style.display = 'none';
-  // }
-console.log(`${npc12.x}px`);
-console.log(`${heroCharacter.style.right}px`);
-console.log(`${hero.x}`);
+npcRun(); 
 
 
-
-  // Some conditionals in here to switch out the picture of what npc is being used.
-  // The change should occur when collision box hits far left of the game container
   // How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
   // but with at least 250px distance between them.
 
-// console.log(npc12.x);
-// console.log(npcCharacter12.style.left);
-
-}
-// npcRun(); 
 
 
-
-
-
-
-
-
-
-
-// have wider container running whole length of bottom screen
-// to allow other divs to move across it 
-// find way to have the divs x axis to contantly move and if it's 
-// style.left position is equal to the hero's style.right then that's a collision
 
 
   // NEXT STEPS:
