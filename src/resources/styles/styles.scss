@@ -1,5 +1,6 @@
 @use './animations' as *;
 @use './variables' as *;
+@use './game-screens' as *;
 
 * {
   margin: 0;
@@ -23,6 +24,7 @@ body {
 }
 
 .game__background {
+
   display: flex;
   align-items: flex-end;
   width: 100%;
@@ -33,7 +35,7 @@ body {
   filter: brightness(140%);
   background-size: 2500px;
   background-repeat: repeat;
-  animation: sceneMovement 8s linear infinite;
+  // animation: sceneMovement 8s linear infinite;
 }
 
 #hero {
@@ -43,12 +45,21 @@ body {
 }
 
 .score-counter {
+  display: none;
   border: solid 1px black;
-  font-family: $font-main;
+  font-family: $font-primary;
   border-radius: 5px;
   padding: 3px 10px;
-  background-color: aliceblue;
+  background-color: $color-primary;
   position: relative;
   top: -240px;
   left: 50%;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
 }
