@@ -1,5 +1,34 @@
 @use './variables' as *;
 
+.game__instructions{
+  width: 600px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 2;
+  left: 10%;
+  color: $color-primary;
+  background-color: red;
+
+  .game__title {
+    font-family: $font-primary;
+    font-size: 16px;
+    letter-spacing: 2px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  .game__instructions-content {
+    margin-top: 20px;
+    font-size: 12px;
+    font-family: $font-secondary;
+    padding: 20px;
+  } // separate instructions / intro from the actual instruction of what keys to press to play 
+}
+
 .game__start-screen {
   display: flex;
   flex-direction: column;

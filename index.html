@@ -4,34 +4,43 @@
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <link
-      rel='icon'
-      type='image'
-      href='/src/resources/images/personal-space-invaders_dodging-small-talk_LOGO.png'
+      rel="icon"
+      type="image"
+      href="/src/resources/images/personal-space-invaders_dodging-small-talk_LOGO.png"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Personal-Space Invaders</title>
   </head>
 
   <body>
-    <div class='game__container'>
-      <div class='game__start-screen'>
+    <div class="game__container">
+      <div class="game__instructions">
+        <h1 class="game__title">Personal-Space Invaders: Dodging Small Talk</h1>
+        <p class="game__instructions-content">
+          In this game, you play as a hooded character (in disguise) stuck at a
+          work event, surrounded by colleagues who insist on engaging you in
+          tedious small talk. Your objective is simple: run across the building
+          of the event, avoiding collisions with colleagues to prevent losing
+          lives. Use the 'up arrow' to jump over colleagues and survive to the
+          end. Can you survive the event without succumbing to boredom?
+        </p>
+      </div>
+      <div class="game__start-screen">
         <p>READY, STEADY</p>
         <div class="game__start-button">SURVIVE!</div>
       </div>
-      <div class='game__background'>
-        <div class='score-counter'>Score: </div>
-        
-        
-          <div id='hero'>
-            <div class='hero__collision-box'></div>
-          </div>
-        
-          <div class='npc-12'> 
-            <div class='npc__collision-box'></div>
-          </div>
+      <div class="game__background">
+        <div class="score-counter">Score:</div>
 
+        <div id="hero">
+          <div class="hero__collision-box"></div>
+        </div>
+
+        <div class="npc-12">
+          <div class="npc__collision-box"></div>
+        </div>
       </div>
     </div>
-    <script type='module' src='/src/main.ts'></script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
