@@ -39,7 +39,8 @@ if (!heroCharacter || !npcCharacter12 || !npcCollision || !heroCollisionBox || !
 
 const heroFrameRate = 10;
 const npcFrameRate = 8;
-let score = 2000000;
+let startTime: number;
+let score = 0;
 let currentImageIndex = 0;
 let isJumping = false;
 let jumpHeight = 100;
@@ -85,16 +86,6 @@ const npc12: Character = {
 };
 
 /////////////////////////// START GAME //////////////////////////////////
-// const handleStartGame = (event: MouseEvent) => {
-//   animateHero();
-// }
-
-// beginGameButton.addEventListener('click', handleStartGame);
-
-
-
-/////////////////////////// HERO ANIMATION //////////////////////////////////
-
 const animateHero = () => {
   heroCharacter.style.width = `${hero.width}px`;
   heroCharacter.style.height = `${hero.height}px`;
@@ -104,6 +95,36 @@ const animateHero = () => {
   heroCollisionBox.style.height = `${hero.height}px`;
   setTimeout(animateHero, 1000 / heroFrameRate);
 };
+// const handleStartGame = (event: MouseEvent) => {
+
+  animateHero();
+  const scoreTotal = () => {
+
+    scoreBox.innerText = `Score: ${score.toLocaleString()}`;
+      
+    if (!startTime){
+      startTime = performance.now()
+    }
+
+    const survivalTime = performance.now()
+    const elapsedTime = Math.floor((survivalTime - startTime) / 1000);
+
+    score += elapsedTime;
+
+    scoreBox.innerText = `Score: ${score.toLocaleString()}`;
+    setTimeout(scoreTotal, 100)
+  };
+
+scoreTotal(); 
+// }
+
+// StartButton.addEventListener('click', handleStartGame);
+
+
+
+/////////////////////////// HERO ANIMATION //////////////////////////////////
+
+
 
 animateHero();
 
@@ -148,13 +169,53 @@ const jump = () => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /////////////////////////////// SCORE COUNTER ////////////////////////////////////////
-const scoreTotal = () => {
-  scoreBox.innerText = `Score: ${score.toLocaleString()}`;
 
-};
 
-scoreTotal(); // find way to put commas 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /////////////////////////////// COLLISION CHECK ////////////////////////////////////
 
 const checkCollision = () => {
@@ -166,6 +227,7 @@ const checkCollision = () => {
     heroRect.y < npcRect.y + npcRect.height &&
     heroRect.y + heroRect.height > npcRect.y
   ) {
+    score -= 50;
     gravity = 50;
     jumpForwardDash = 0;
     heroCharacter.style.width = "70px";
@@ -184,8 +246,13 @@ const checkCollision = () => {
   }
 };
 
+
+
+
 const npcRun = () => {
-  console.log(npcCharacter12.style.backgroundImage);
+  
+  
+  // console.log(npcCharacter12.style.backgroundImage);
   const npcBounds = npcCharacter12.getBoundingClientRect();
 
   if (npcBounds.x <= 0) {
@@ -193,10 +260,9 @@ const npcRun = () => {
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[1]}')`;
     // url image only changes for 2 seconds before switching back to 6.
     // Loop through images after each boundary cross? loop through randomly?
-    console.log(npcCharacter12.style.backgroundImage);
+    // console.log(npcCharacter12.style.backgroundImage);
 
-    npc12.x = window.innerWidth; // change this to be equal to the game container's width. too much spillover
-    console.log(npc12.x);
+    npc12.x = window.innerWidth;
   }
 
   npcCharacter12.style.position = "absolute";
@@ -222,3 +288,5 @@ npcRun();
 // add game over screen and handle restarting game
 // add start screen to initialise game only when player clicks start - use classList add & remove to switch between displays being shown or hidden
 // Add difficulty for npc speed increasing and number of npc increasing the longer player survives
+
+
