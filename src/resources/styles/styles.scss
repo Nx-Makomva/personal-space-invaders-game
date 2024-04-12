@@ -19,7 +19,6 @@ body {
   flex-direction: column;
   background-color: darken(rgb(0, 0, 0), $amount: 0);
   width: 100%;
-  height: auto;
   border-bottom: 2px dashed gray;
 }
 
@@ -27,7 +26,7 @@ body {
   display: flex;
   align-items: flex-end;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   padding-top: 240px;
   // border: 1px solid rgb(253, 115, 138);
   background-image: url('/src/resources/environment/office(2).png');
@@ -50,6 +49,6 @@ body {
   padding: 3px 10px;
   background-color: aliceblue;
   position: relative;
-  top: -250px;
-  left: 550px;
+  top: -240px;
+  left: 50%;
 }
