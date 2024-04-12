@@ -4,30 +4,34 @@
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <link
-      rel="icon"
-      type="image"
-      href="/src/resources/images/personal-space-invaders_dodging-small-talk_LOGO.png"
+      rel='icon'
+      type='image'
+      href='/src/resources/images/personal-space-invaders_dodging-small-talk_LOGO.png'
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Personal-Space Invaders</title>
   </head>
 
   <body>
-    <div class="game__container">
-      <div class="game__background">
-        <div class="score-counter">Score: </div>
+    <div class='game__container'>
+      <div class='game__start-screen'>
+        <p>READY, STEADY</p>
+        <div class="game__start-button">SURVIVE!</div>
+      </div>
+      <div class='game__background'>
+        <div class='score-counter'>Score: </div>
         
         
-          <div id="hero">
-            <div class="hero__collision-box"></div>
+          <div id='hero'>
+            <div class='hero__collision-box'></div>
           </div>
         
-          <div class="npc-12"> 
-            <div class="npc__collision-box"></div>
+          <div class='npc-12'> 
+            <div class='npc__collision-box'></div>
           </div>
 
       </div>
     </div>
-    <script type="module" src="/src/main.ts"></script>
+    <script type='module' src='/src/main.ts'></script>
   </body>
 </html>

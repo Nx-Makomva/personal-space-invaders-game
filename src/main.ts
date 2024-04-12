@@ -26,12 +26,32 @@ import { Character } from "./types";
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
 const npcCharacter12 = document.querySelector<HTMLDivElement>(".npc-12");
-const npcCollision = document.querySelector<HTMLDivElement>(".npc__collision-box");
-const heroCollisionBox = document.querySelector<HTMLDivElement>(".hero__collision-box");
+const npcCollision = document.querySelector<HTMLDivElement>(
+  ".npc__collision-box"
+);
+const heroCollisionBox = document.querySelector<HTMLDivElement>(
+  ".hero__collision-box"
+);
 const scoreBox = document.querySelector<HTMLDivElement>(".score-counter");
-
+const startScreen = document.querySelector<HTMLDivElement>(
+  ".game__start-screen"
+);
+const startButton = document.querySelector<HTMLDivElement>(
+  ".game__start-button"
+);
+const gameBackground =
+  document.querySelector<HTMLDivElement>(".game__background");
 /////////////////////////// NULL EXCEPTIONS //////////////////////////////
-if (!heroCharacter || !npcCharacter12 || !npcCollision || !heroCollisionBox || !scoreBox) {
+if (
+  !heroCharacter ||
+  !npcCharacter12 ||
+  !npcCollision ||
+  !heroCollisionBox ||
+  !scoreBox ||
+  !startScreen ||
+  !startButton ||
+  !gameBackground
+) {
   throw new Error("Issues with selector");
 }
 
@@ -61,6 +81,8 @@ const npcCharacterSprites = [
   "src/resources/character-sprites/npc-12.png",
   "src/resources/images/WHAM.png",
 ];
+const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
+
 
 const heroImagesRun = [
   "src/resources/character-sprites/mc-run(1).png",
@@ -85,7 +107,7 @@ const npc12: Character = {
   height: 40,
 };
 
-/////////////////////////// START GAME //////////////////////////////////
+
 // track current location of hero on screen
 //event listener on window for key
 // animate hero has event passed as callback function
@@ -99,40 +121,44 @@ const animateHero = () => {
   heroCollisionBox.style.height = `${hero.height}px`;
   setTimeout(animateHero, 1000 / heroFrameRate);
 };
-// const handleStartGame = (event: MouseEvent) => {
-  // have a randomly generated character to start the game with
-    const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
-    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`; 
-    animateHero();
-    const scoreTotal = () => {
 
-      scoreBox.innerText = `Score: ${score.toLocaleString()}`;
-        
-      if (!startTime){
-        startTime = performance.now()
-      }
+const scoreTotal = () => {
+  scoreBox.innerText = `Score: ${score.toLocaleString()}`;
 
-      const survivalTime = performance.now()
-      const elapsedTime = Math.floor((survivalTime - startTime) / 1000);
+  if (!startTime) {
+    startTime = performance.now();
+  }
 
-      score += elapsedTime;
+  const survivalTime = performance.now();
+  const elapsedTime = Math.floor((survivalTime - startTime) / 1000);
 
-      scoreBox.innerText = `Score: ${score.toLocaleString()}`;
-      setTimeout(scoreTotal, 100)
-    };
+  score += elapsedTime;
 
-scoreTotal(); 
-// }
+  scoreBox.innerText = `Score: ${score.toLocaleString()}`;
+  setTimeout(scoreTotal, 100);
+};
 
-// StartButton.addEventListener('click', handleStartGame);
+gameBackground.style.backgroundImage = 'none';
+
+/////////////////////////// START GAME //////////////////////////////////
+
+startButton.addEventListener("click", () => {
+  startScreen.classList.add('hide');
+  if (gameBackground) {
+    gameBackground.style.backgroundImage = `url('/src/resources/environment/office(2).png')`;
+    gameBackground.style.animation = "sceneMovement 8s linear infinite";
+  }
+
+  scoreBox.classList.add('show')
+  npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
+
+  scoreTotal();
+  animateHero();
+  npcRun();
+  
+});
 
 
-
-/////////////////////////// HERO ANIMATION //////////////////////////////////
-
-
-
-animateHero();
 
 // on button press
 // if statements // on button click switch array // have it all in one function and switch between using default value
@@ -175,12 +201,6 @@ const jump = () => {
   }
 };
 
-
-
-
-
-
-
 /////////////////////////////// COLLISION CHECK ////////////////////////////////////
 
 const checkCollision = () => {
@@ -211,8 +231,6 @@ const checkCollision = () => {
   }
 };
 
-
-
 const npcRun = () => {
   const npcBounds = npcCharacter12.getBoundingClientRect();
   npcCharacter12.style.position = "absolute";
@@ -222,8 +240,7 @@ const npcRun = () => {
   npcCharacter12.style.top = `${npc12.y}px`;
 
   if (npcBounds.x <= 0) {
-    const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
-    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`; 
+    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
     npcCharacter12.style.display = "block";
     npc12.x = window.innerWidth;
   }
@@ -231,10 +248,8 @@ const npcRun = () => {
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
   checkCollision();
-  // setTimeout(npcRun, 1000 / npcFrameRate);
+  setTimeout(npcRun, 1000 / npcFrameRate);
 };
-
-npcRun();
 
 // How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
 // but with at least 250px distance between them.
@@ -244,5 +259,3 @@ npcRun();
 // add game over screen and handle restarting game
 // add start screen to initialise game only when player clicks start - use classList add & remove to switch between displays being shown or hidden
 // Add difficulty for npc speed increasing and number of npc increasing the longer player survives
-
-

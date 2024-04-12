@@ -1,0 +1,53 @@
+@use './variables' as *;
+
+.game__start-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  top: 14%;
+  left: 30%;
+  width: 263px;
+  height: 200px;
+  color: black;
+  background-image: url('../images/game-screen.jpeg');
+  background-repeat: no-repeat;
+  border-radius: 25px;
+  box-shadow: 5px 5px 2px;
+
+    p {
+      font-family: $font-primary;
+      font-size: 12px;
+      letter-spacing: 2px;
+      background: linear-gradient(to bottom, #ff4d00, #ffbf00);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+  .game__start-button {
+    margin-top: 20px;
+    padding: 8px 10px;
+    font-family: $font-primary;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    border-radius: 12px;
+
+    color: $color-primary;
+
+      &:hover {
+        color: #ff4d00;
+        box-shadow: 2px 2px 2px;
+        background-color: $color-primary;
+      }
+
+      &:active {
+        box-shadow: 2px 2px 2px;
+        font-size: 8px;
+        color: #09ff00;
+      }
+  }
+}
+
