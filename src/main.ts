@@ -48,7 +48,7 @@ let jumpSpeed = 10;
 let jumpForwardDash = 4;
 let gravity = 2.5;
 let jumpReturnPosition = 0;
-let npcMovementSpeed = 11;
+let npcMovementSpeed = 15;
 
 /////////////////////////// CHARACTER IMAGES //////////////////////////////
 const npcCharacterSprites = [
@@ -79,14 +79,18 @@ const hero: Character = {
 };
 
 const npc12: Character = {
-  x: 200, // X-coordinate of the character's position
+  x: 350, // X-coordinate of the character's position
   y: 240, // Y-coordinate of the character's position
   width: 20, // Width of the character's box container
   height: 40,
 };
 
 /////////////////////////// START GAME //////////////////////////////////
+// track current location of hero on screen
+//event listener on window for key
+// animate hero has event passed as callback function
 const animateHero = () => {
+  // if event then run this else run the rest
   heroCharacter.style.width = `${hero.width}px`;
   heroCharacter.style.height = `${hero.height}px`;
   heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
@@ -96,24 +100,26 @@ const animateHero = () => {
   setTimeout(animateHero, 1000 / heroFrameRate);
 };
 // const handleStartGame = (event: MouseEvent) => {
+  // have a randomly generated character to start the game with
+    const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
+    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`; 
+    animateHero();
+    const scoreTotal = () => {
 
-  animateHero();
-  const scoreTotal = () => {
+      scoreBox.innerText = `Score: ${score.toLocaleString()}`;
+        
+      if (!startTime){
+        startTime = performance.now()
+      }
 
-    scoreBox.innerText = `Score: ${score.toLocaleString()}`;
-      
-    if (!startTime){
-      startTime = performance.now()
-    }
+      const survivalTime = performance.now()
+      const elapsedTime = Math.floor((survivalTime - startTime) / 1000);
 
-    const survivalTime = performance.now()
-    const elapsedTime = Math.floor((survivalTime - startTime) / 1000);
+      score += elapsedTime;
 
-    score += elapsedTime;
-
-    scoreBox.innerText = `Score: ${score.toLocaleString()}`;
-    setTimeout(scoreTotal, 100)
-  };
+      scoreBox.innerText = `Score: ${score.toLocaleString()}`;
+      setTimeout(scoreTotal, 100)
+    };
 
 scoreTotal(); 
 // }
@@ -175,47 +181,6 @@ const jump = () => {
 
 
 
-
-
-
-
-
-
-
-/////////////////////////////// SCORE COUNTER ////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /////////////////////////////// COLLISION CHECK ////////////////////////////////////
 
 const checkCollision = () => {
@@ -230,8 +195,8 @@ const checkCollision = () => {
     score -= 50;
     gravity = 50;
     jumpForwardDash = 0;
-    heroCharacter.style.width = "70px";
-    heroCharacter.style.height = "70px";
+    heroCharacter.style.width = "50px";
+    heroCharacter.style.height = "50px";
     heroCharacter.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
     npcCharacter12.style.width = "50px";
     npcCharacter12.style.height = "50px";
@@ -248,34 +213,25 @@ const checkCollision = () => {
 
 
 
-
 const npcRun = () => {
-  
-  
-  // console.log(npcCharacter12.style.backgroundImage);
   const npcBounds = npcCharacter12.getBoundingClientRect();
-
-  if (npcBounds.x <= 0) {
-    npcCharacter12.style.display = "block";
-    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[1]}')`;
-    // url image only changes for 2 seconds before switching back to 6.
-    // Loop through images after each boundary cross? loop through randomly?
-    // console.log(npcCharacter12.style.backgroundImage);
-
-    npc12.x = window.innerWidth;
-  }
-
   npcCharacter12.style.position = "absolute";
   npcCharacter12.style.width = `${npc12.width}px`;
   npcCharacter12.style.height = `${npc12.height}px`;
   npcCharacter12.style.left = `${npc12.x}px`;
   npcCharacter12.style.top = `${npc12.y}px`;
-  npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[6]}')`;
+
+  if (npcBounds.x <= 0) {
+    const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
+    npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`; 
+    npcCharacter12.style.display = "block";
+    npc12.x = window.innerWidth;
+  }
 
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
   checkCollision();
-  setTimeout(npcRun, 1000 / npcFrameRate);
+  // setTimeout(npcRun, 1000 / npcFrameRate);
 };
 
 npcRun();
