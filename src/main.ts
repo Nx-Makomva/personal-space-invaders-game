@@ -68,6 +68,8 @@ if (
 
 const heroFrameRate = 10;
 const npcFrameRate = 8;
+let scoreCounterTimeout: number;
+let heroRunTimeout: number;
 let npcRunTimeout: number;
 let startTime: number;
 let livesLeft = 3;
@@ -121,7 +123,7 @@ const npc12: Character = {
 // track current location of hero on screen
 //event listener on window for key
 // animate hero has event passed as callback function
-const animateHero = () => {
+const heroRun = () => {
   // if event then run this else run the rest
   heroCharacter.style.width = `${hero.width}px`;
   heroCharacter.style.height = `${hero.height}px`;
@@ -129,7 +131,7 @@ const animateHero = () => {
   currentImageIndex = (currentImageIndex + 1) % heroImagesRun.length;
   heroCollisionBox.style.width = `${hero.width - 30}px`;
   heroCollisionBox.style.height = `${hero.height}px`;
-  setTimeout(animateHero, 1000 / heroFrameRate);
+  heroRunTimeout = setTimeout(heroRun, 1000 / heroFrameRate);
 };
 
 const scoreTotal = () => {
@@ -145,7 +147,7 @@ const scoreTotal = () => {
   score += elapsedTime;
 
   scoreBox.innerText = `Score: ${score.toLocaleString()}`;
-  setTimeout(scoreTotal, 100);
+  scoreCounterTimeout = setTimeout(scoreTotal, 100);
 };
 
 
@@ -172,7 +174,7 @@ startButton.addEventListener('click', () => {
   npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
 
   scoreTotal();
-  animateHero();
+  heroRun();
   npcRun();
   // setTimeout(npcRun, 2000);
   
@@ -224,7 +226,6 @@ const jump = () => {
 /////////////////////////////// COLLISION CHECK ////////////////////////////////////
 
 const checkCollision = () => {
-  console.log('checking collision first');
   const heroRect = heroCollisionBox.getBoundingClientRect();
   const npcRect = npcCharacter12.getBoundingClientRect();
   if (
@@ -233,14 +234,13 @@ const checkCollision = () => {
     heroRect.y < npcRect.y + npcRect.height &&
     heroRect.y + heroRect.height > npcRect.y
   ) {
-    console.log('i have crashed');
     removeGameLife();
     score -= 100;
     gravity = 50;
     jumpForwardDash = 0;
-    // heroCharacter.style.width = "40px";
-    // heroCharacter.style.height = "40px";
-    // heroCharacter.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
+    heroCharacter.style.width = "40px";
+    heroCharacter.style.height = "40px";
+    heroCharacter.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
     npcCharacter12.style.width = "40px";
     npcCharacter12.style.height = "40px";
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
@@ -250,7 +250,9 @@ const checkCollision = () => {
       gravity = 5;
       jumpForwardDash = 4;
 
-      setTimeout(npcRun, 2000);
+      if (livesLeft > 0) {
+      npcRunTimeout = setTimeout(npcRun, 1000);
+      }
     }, 500);
 
     clearTimeout(npcRunTimeout);
@@ -259,6 +261,9 @@ const checkCollision = () => {
 
 const endGame = () => {
   clearTimeout(npcRunTimeout);
+  clearTimeout(heroRunTimeout);
+  clearTimeout(scoreCounterTimeout);
+  gameBackground.style.animation = "none";
 }
 
 
@@ -273,11 +278,11 @@ const removeGameLife = () => {
 
   } else if (livesLeft === 0) {
     lifeThree.classList.add('game__life-remove');
+    console.log('last life is gone');
+    endGame();
+    
   }
 }
-
-
-
 
 const npcRun = () => {
   const npcBounds = npcCharacter12.getBoundingClientRect();
