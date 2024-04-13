@@ -2,6 +2,7 @@
 @use './variables' as *;
 @use './game-screens' as *;
 @use './components' as *;
+@use './media-queries' as *;
 
 * {
   margin: 0;
@@ -53,8 +54,27 @@ body {
   padding: 3px 10px;
   background-color: $color-primary;
   position: relative;
-  top: -240px;
-  left: 50%;
+  top: -250px;
+  left: 40%;
+}
+
+.game__lives-container {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 5%;
+
+  .game__lives {
+    width: 30px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .game__life-remove {
+    display: none;
+  }
+
+
 }
 
 .hide {
@@ -64,3 +84,9 @@ body {
 .show {
   display: block;
 }
+
+.show-flex {
+  display: flex;
+}
+
+
