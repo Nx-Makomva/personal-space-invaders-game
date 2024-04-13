@@ -11,7 +11,7 @@ Testing
 
 
 Introduction
-In this game, you play as a hooded character (in disguise) stuck at a work event, surrounded by colleagues who insist on engaging you in tedious small talk. Your objective is simple: run across the building of the event, avoiding collisions with colleagues to prevent losing lives. Use your spacebar to jump over colleagues and survive to the end. Can you survive the event without succumbing to boredom?
+In this game, you play as a hooded character (in disguise) stuck at a work event, surrounded by colleagues who insist on engaging you in tedious small talk. Your objective is simple: run across the building of the event, avoiding collisions with colleagues to prevent losing lives. Use your '⇧' arrow key to jump over colleagues and survive to the end. Can you survive the event without succumbing to boredom?
 
 
 Features
@@ -22,13 +22,15 @@ Score counter tracks your progress through the event.
 
 
 Gameplay
-Navigate through the work event, avoiding collisions with colleagues to prevent losing lives. Use your spacebar to perform attacks and eliminate obstacles in your path. The game features a continuous single level with increasing difficulty, providing a challenging experience for players of all skill levels.
+Navigate through the work event, avoiding collisions with colleagues to prevent losing lives. 
 
 
 Controls
-Use the spacebar to jump and avoid your colleagues.
+Use the '⇧' arrow key to jump and avoid your colleagues.
+
+
 Development
-The game was developed using HTML5 Canvas for rendering graphics and JavaScript for implementing game logic. Development focused on creating engaging gameplay mechanics, intuitive controls, and a visually appealing experience for players.
+The game was developed using HTML5 and JavaScript for implementing game logic. Development focused on creating engaging gameplay mechanics, intuitive controls, and a visually appealing experience for players.
 
 
 Testing
