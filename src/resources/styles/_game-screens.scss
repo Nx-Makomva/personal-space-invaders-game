@@ -64,4 +64,40 @@
       -webkit-text-fill-color: transparent;
     }
 }
+.game__end-screen{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+  top: 20%;
+  left: 30%;
+  width: 363px;
+  height: 400px;
+  background-color: rebeccapurple;
+  color: rgb(254, 3, 3);
+  border-radius: 25px;
+  box-shadow: 5px 5px 2px;
+
+    .game__end-screen-title {
+      color: $color-secondary;
+      font-family: $font-primary;
+      padding-top: 20px;
+      font-size: 20px;
+      letter-spacing: 2px;
+      line-height: 35px;
+      text-align: center;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 16px;
+      font-family: $font-secondary;
+      padding: 5px 30px;
+      letter-spacing: 2px;
+      line-height: 25px;
+      color: $color-secondary;
+    }
+}
 
