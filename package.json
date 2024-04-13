@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Nx-Makomva.github.io/yuma-packages",
+  "homepage": "https://Nx-Makomva.github.io/personal-space-invaders-game ",
   "author": "Nic Makomva",
   "scripts": {
     "dev": "vite",
