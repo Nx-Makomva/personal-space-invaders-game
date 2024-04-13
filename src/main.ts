@@ -41,8 +41,10 @@ const startButton = document.querySelector<HTMLDivElement>(
 );
 const instructionsButton = document.querySelector<HTMLDivElement>('.game__instructions-button');
 const instructionsScreen = document.querySelector<HTMLDivElement>('.game__instructions');
-const gameBackground =
-  document.querySelector<HTMLDivElement>(".game__background");
+const gameBackground =document.querySelector<HTMLDivElement>(".game__background");
+const lifeOne = document.querySelector<HTMLDivElement>('.one');
+const lifeTwo = document.querySelector<HTMLDivElement>('.two');
+const lifeThree = document.querySelector<HTMLDivElement>('.three');
 /////////////////////////// NULL EXCEPTIONS //////////////////////////////
 if (
   !heroCharacter ||
@@ -54,7 +56,10 @@ if (
   !startButton ||
   !gameBackground ||
   !instructionsButton ||
-  !instructionsScreen
+  !instructionsScreen ||
+  !lifeOne ||
+  !lifeTwo ||
+  !lifeThree
 ) {
   throw new Error("Issues with selector");
 }
@@ -63,7 +68,9 @@ if (
 
 const heroFrameRate = 10;
 const npcFrameRate = 8;
+let npcRunTimeout: number;
 let startTime: number;
+let livesLeft = 3;
 let score = 0;
 let currentImageIndex = 0;
 let isJumping = false;
@@ -141,15 +148,20 @@ const scoreTotal = () => {
   setTimeout(scoreTotal, 100);
 };
 
-gameBackground.style.backgroundImage = 'none';
-instructionsButton.addEventListener('click', () => {
-  instructionsScreen.classList.add('hide');
+
+
+  startScreen.classList.add('hide');
+  gameBackground.style.backgroundImage = 'none';
+
+  instructionsButton.addEventListener('click', () => {
+    instructionsScreen.classList.add('hide');
+    startScreen.classList.add('show-flex');
 })
 
 /////////////////////////// START GAME //////////////////////////////////
 
-// startButton.addEventListener('click', () => {
-  startScreen.classList.add('hide');
+startButton.addEventListener('click', () => {
+  startScreen.classList.remove('show-flex');
   if (gameBackground) {
     gameBackground.style.backgroundImage = `url('/src/resources/environment/office(2).png')`;
     gameBackground.style.animation = "sceneMovement 9s linear infinite";
@@ -161,9 +173,10 @@ instructionsButton.addEventListener('click', () => {
 
   scoreTotal();
   animateHero();
+  npcRun();
   // setTimeout(npcRun, 2000);
   
-// });
+});
 
 
 
@@ -211,6 +224,7 @@ const jump = () => {
 /////////////////////////////// COLLISION CHECK ////////////////////////////////////
 
 const checkCollision = () => {
+  console.log('checking collision first');
   const heroRect = heroCollisionBox.getBoundingClientRect();
   const npcRect = npcCharacter12.getBoundingClientRect();
   if (
@@ -219,23 +233,51 @@ const checkCollision = () => {
     heroRect.y < npcRect.y + npcRect.height &&
     heroRect.y + heroRect.height > npcRect.y
   ) {
+    console.log('i have crashed');
+    removeGameLife();
     score -= 100;
     gravity = 50;
     jumpForwardDash = 0;
-    heroCharacter.style.width = "50px";
-    heroCharacter.style.height = "50px";
-    heroCharacter.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
-    npcCharacter12.style.width = "50px";
-    npcCharacter12.style.height = "50px";
+    // heroCharacter.style.width = "40px";
+    // heroCharacter.style.height = "40px";
+    // heroCharacter.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
+    npcCharacter12.style.width = "40px";
+    npcCharacter12.style.height = "40px";
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
 
     setTimeout(() => {
       npcCharacter12.style.display = "none";
       gravity = 5;
       jumpForwardDash = 4;
+
+      setTimeout(npcRun, 2000);
     }, 500);
+
+    clearTimeout(npcRunTimeout);
   }
 };
+
+const endGame = () => {
+  clearTimeout(npcRunTimeout);
+}
+
+
+const removeGameLife = () => {
+  livesLeft -= 1;
+  
+  if (livesLeft === 2) {
+    lifeOne.classList.add('game__life-remove');
+    
+  } else if (livesLeft === 1) {
+     lifeTwo.classList.add('game__life-remove');
+
+  } else if (livesLeft === 0) {
+    lifeThree.classList.add('game__life-remove');
+  }
+}
+
+
+
 
 const npcRun = () => {
   const npcBounds = npcCharacter12.getBoundingClientRect();
@@ -248,7 +290,6 @@ const npcRun = () => {
   if (npcBounds.x <= 0) {
     const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
-    console.log( npcCharacter12.style.backgroundImage);
     
     npcCharacter12.style.display = "block";
     npc12.x = window.innerWidth;
@@ -256,11 +297,11 @@ const npcRun = () => {
 
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
+  npcRunTimeout = setTimeout(npcRun, 1000 / npcFrameRate);
   checkCollision();
-  setTimeout(npcRun, 1000 / npcFrameRate);
 };
 
-npcRun();
+
 
 // How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
 // but with at least 250px distance between them.

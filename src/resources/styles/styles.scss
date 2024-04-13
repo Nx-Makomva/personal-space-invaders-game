@@ -69,6 +69,12 @@ body {
     padding: 0;
     margin: 0;
   }
+
+  .game__life-remove {
+    display: none;
+  }
+
+
 }
 
 .hide {
@@ -78,4 +84,9 @@ body {
 .show {
   display: block;
 }
+
+.show-flex {
+  display: flex;
+}
+
 
