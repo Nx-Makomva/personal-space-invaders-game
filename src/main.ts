@@ -26,25 +26,19 @@ import { Character } from "./types";
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
 const npcCharacter12 = document.querySelector<HTMLDivElement>(".npc-12");
-const npcCollision = document.querySelector<HTMLDivElement>(
-  ".npc__collision-box"
-);
-const heroCollisionBox = document.querySelector<HTMLDivElement>(
-  ".hero__collision-box"
-);
+const npcCollision = document.querySelector<HTMLDivElement>(".npc__collision-box");
+const heroCollisionBox = document.querySelector<HTMLDivElement>(".hero__collision-box");
 const scoreBox = document.querySelector<HTMLDivElement>(".score-counter");
-const startScreen = document.querySelector<HTMLDivElement>(
-  ".game__start-screen"
-);
-const startButton = document.querySelector<HTMLDivElement>(
-  ".game__start-button"
-);
-const instructionsButton = document.querySelector<HTMLDivElement>('.game__instructions-button');
-const instructionsScreen = document.querySelector<HTMLDivElement>('.game__instructions');
-const gameBackground =document.querySelector<HTMLDivElement>(".game__background");
-const lifeOne = document.querySelector<HTMLDivElement>('.one');
-const lifeTwo = document.querySelector<HTMLDivElement>('.two');
-const lifeThree = document.querySelector<HTMLDivElement>('.three');
+const startScreen = document.querySelector<HTMLDivElement>(".game__start-screen");
+const gameOverScreen = document.querySelector<HTMLDivElement>(".game__end-screen");
+const startButton = document.querySelector<HTMLDivElement>(".game__start-button");
+const instructionsButton = document.querySelector<HTMLDivElement>(".game__instructions-button");
+const instructionsScreen = document.querySelector<HTMLDivElement>(".game__instructions");
+const gameBackground = document.querySelector<HTMLDivElement>(".game__background");
+const lifeOne = document.querySelector<HTMLDivElement>(".one");
+const lifeTwo = document.querySelector<HTMLDivElement>(".two");
+const lifeThree = document.querySelector<HTMLDivElement>(".three");
+
 /////////////////////////// NULL EXCEPTIONS //////////////////////////////
 if (
   !heroCharacter ||
@@ -53,6 +47,7 @@ if (
   !heroCollisionBox ||
   !scoreBox ||
   !startScreen ||
+  !gameOverScreen ||
   !startButton ||
   !gameBackground ||
   !instructionsButton ||
@@ -95,7 +90,6 @@ const npcCharacterSprites = [
   "src/resources/images/WHAM.png",
 ];
 
-
 const heroImagesRun = [
   "src/resources/character-sprites/mc-run(1).png",
   "src/resources/character-sprites/mc-run(2).png",
@@ -118,7 +112,6 @@ const npc12: Character = {
   width: 20, // Width of the character's box container
   height: 40,
 };
-
 
 // track current location of hero on screen
 //event listener on window for key
@@ -150,40 +143,60 @@ const scoreTotal = () => {
   scoreCounterTimeout = setTimeout(scoreTotal, 100);
 };
 
+startScreen.classList.add("hide");
+gameBackground.style.backgroundImage = "none";
+gameOverScreen.classList.add('hide');
 
-
-  startScreen.classList.add('hide');
-  gameBackground.style.backgroundImage = 'none';
-
-  instructionsButton.addEventListener('click', () => {
-    instructionsScreen.classList.add('hide');
-    startScreen.classList.add('show-flex');
-})
+instructionsButton.addEventListener("click", () => {
+  instructionsScreen.classList.add("hide");
+  startScreen.classList.add("show-flex");
+});
 
 /////////////////////////// START GAME //////////////////////////////////
 
-startButton.addEventListener('click', () => {
-  startScreen.classList.remove('show-flex');
+startButton.addEventListener("click", () => {
+  startScreen.classList.remove("show-flex");
   if (gameBackground) {
     gameBackground.style.backgroundImage = `url('/src/resources/environment/office(2).png')`;
     gameBackground.style.animation = "sceneMovement 9s linear infinite";
   }
 
-  scoreBox.classList.add('show')
-  const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
+  scoreBox.classList.add("show");
+  const randomImageIndex = Math.floor(
+    Math.random() * (npcCharacterSprites.length - 1)
+  );
   npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
 
   scoreTotal();
   heroRun();
   npcRun();
   // setTimeout(npcRun, 2000);
-  
 });
-
-
 
 // on button press
 // if statements // on button click switch array // have it all in one function and switch between using default value
+
+
+/////////////////////////// RESTART GAME //////////////////////////////////
+const restartGame = () => {
+  startTime = 0;
+  livesLeft = 3;
+  score = 0;
+  currentImageIndex = 0;
+  isJumping = false;
+
+  lifeOne.classList.remove("game__life-remove");
+  lifeTwo.classList.remove("game__life-remove");
+  lifeThree.classList.remove("game__life-remove");
+
+  gameBackground.style.animation = "sceneMovement 9s linear infinite";
+
+  // startButton.disabled = false
+  scoreTotal();
+  heroRun();
+  npcRun();
+
+}
 
 /////////////////////////// HERO JUMP AND FALL FUNCTIONS //////////////////////////////////
 
@@ -251,7 +264,7 @@ const checkCollision = () => {
       jumpForwardDash = 4;
 
       if (livesLeft > 0) {
-      npcRunTimeout = setTimeout(npcRun, 1000);
+        npcRunTimeout = setTimeout(npcRun, 1000);
       }
     }, 500);
 
@@ -264,25 +277,27 @@ const endGame = () => {
   clearTimeout(heroRunTimeout);
   clearTimeout(scoreCounterTimeout);
   gameBackground.style.animation = "none";
-}
+  gameOverScreen.classList.remove('hide');
+};
 
+gameOverScreen.addEventListener('click', () => {
+  gameOverScreen.classList.add('hide');
+  restartGame();
+})
 
 const removeGameLife = () => {
   livesLeft -= 1;
-  
-  if (livesLeft === 2) {
-    lifeOne.classList.add('game__life-remove');
-    
-  } else if (livesLeft === 1) {
-     lifeTwo.classList.add('game__life-remove');
 
+  if (livesLeft === 2) {
+    lifeOne.classList.add("game__life-remove");
+  } else if (livesLeft === 1) {
+    lifeTwo.classList.add("game__life-remove");
   } else if (livesLeft === 0) {
-    lifeThree.classList.add('game__life-remove');
-    console.log('last life is gone');
+    lifeThree.classList.add("game__life-remove");
+    console.log("last life is gone");
     endGame();
-    
   }
-}
+};
 
 const npcRun = () => {
   const npcBounds = npcCharacter12.getBoundingClientRect();
@@ -293,9 +308,11 @@ const npcRun = () => {
   npcCharacter12.style.top = `${npc12.y}px`;
 
   if (npcBounds.x <= 0) {
-    const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
+    const randomImageIndex = Math.floor(
+      Math.random() * (npcCharacterSprites.length - 1)
+    );
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
-    
+
     npcCharacter12.style.display = "block";
     npc12.x = window.innerWidth;
   }
@@ -305,8 +322,6 @@ const npcRun = () => {
   npcRunTimeout = setTimeout(npcRun, 1000 / npcFrameRate);
   checkCollision();
 };
-
-
 
 // How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
 // but with at least 250px distance between them.
