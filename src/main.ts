@@ -39,6 +39,8 @@ const startScreen = document.querySelector<HTMLDivElement>(
 const startButton = document.querySelector<HTMLDivElement>(
   ".game__start-button"
 );
+const instructionsButton = document.querySelector<HTMLDivElement>('.game__instructions-button');
+const instructionsScreen = document.querySelector<HTMLDivElement>('.game__instructions');
 const gameBackground =
   document.querySelector<HTMLDivElement>(".game__background");
 /////////////////////////// NULL EXCEPTIONS //////////////////////////////
@@ -50,7 +52,9 @@ if (
   !scoreBox ||
   !startScreen ||
   !startButton ||
-  !gameBackground
+  !gameBackground ||
+  !instructionsButton ||
+  !instructionsScreen
 ) {
   throw new Error("Issues with selector");
 }
@@ -64,11 +68,11 @@ let score = 0;
 let currentImageIndex = 0;
 let isJumping = false;
 let jumpHeight = 100;
-let jumpSpeed = 10;
+let jumpSpeed = 15;
 let jumpForwardDash = 4;
-let gravity = 2.5;
+let gravity = 5;
 let jumpReturnPosition = 0;
-let npcMovementSpeed = 15;
+let npcMovementSpeed = 25;
 
 /////////////////////////// CHARACTER IMAGES //////////////////////////////
 const npcCharacterSprites = [
@@ -81,7 +85,6 @@ const npcCharacterSprites = [
   "src/resources/character-sprites/npc-12.png",
   "src/resources/images/WHAM.png",
 ];
-const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
 
 
 const heroImagesRun = [
@@ -101,7 +104,7 @@ const hero: Character = {
 };
 
 const npc12: Character = {
-  x: 350, // X-coordinate of the character's position
+  x: 550, // X-coordinate of the character's position
   y: 240, // Y-coordinate of the character's position
   width: 20, // Width of the character's box container
   height: 40,
@@ -139,22 +142,26 @@ const scoreTotal = () => {
 };
 
 gameBackground.style.backgroundImage = 'none';
+instructionsButton.addEventListener('click', () => {
+  instructionsScreen.classList.add('hide');
+})
 
 /////////////////////////// START GAME //////////////////////////////////
 
-startButton.addEventListener("click", () => {
+startButton.addEventListener('click', () => {
   startScreen.classList.add('hide');
   if (gameBackground) {
     gameBackground.style.backgroundImage = `url('/src/resources/environment/office(2).png')`;
-    gameBackground.style.animation = "sceneMovement 8s linear infinite";
+    gameBackground.style.animation = "sceneMovement 9s linear infinite";
   }
 
   scoreBox.classList.add('show')
+  const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
   npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
 
   scoreTotal();
   animateHero();
-  npcRun();
+  setTimeout(npcRun, 2000);
   
 });
 
@@ -207,12 +214,12 @@ const checkCollision = () => {
   const heroRect = heroCollisionBox.getBoundingClientRect();
   const npcRect = npcCharacter12.getBoundingClientRect();
   if (
-    heroRect.x + 26 < npcRect.x + npcRect.width &&
-    heroRect.x + 26 + heroRect.width - 26 > npcRect.x &&
+    heroRect.x + 17 < npcRect.x + npcRect.width &&
+    heroRect.x + 17 + heroRect.width - 17 > npcRect.x &&
     heroRect.y < npcRect.y + npcRect.height &&
     heroRect.y + heroRect.height > npcRect.y
   ) {
-    score -= 50;
+    score -= 100;
     gravity = 50;
     jumpForwardDash = 0;
     heroCharacter.style.width = "50px";
@@ -225,7 +232,7 @@ const checkCollision = () => {
     setTimeout(() => {
       // isCollision = true;
       npcCharacter12.style.display = "none";
-      gravity = 2.5;
+      gravity = 5;
       jumpForwardDash = 4;
     }, 500);
   }
@@ -240,7 +247,10 @@ const npcRun = () => {
   npcCharacter12.style.top = `${npc12.y}px`;
 
   if (npcBounds.x <= 0) {
+    const randomImageIndex = Math.floor(Math.random() * (npcCharacterSprites.length - 1));
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
+    console.log( npcCharacter12.style.backgroundImage);
+    
     npcCharacter12.style.display = "block";
     npc12.x = window.innerWidth;
   }

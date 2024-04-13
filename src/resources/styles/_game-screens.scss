@@ -1,32 +1,41 @@
 @use './variables' as *;
+@use './components' as *;
+
 
 .game__instructions{
   width: 600px;
-  height: 300px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
   z-index: 2;
-  left: 10%;
+  top: 0;
+  left: 5%;
+  padding-top: 50px;
   color: $color-primary;
-  background-color: red;
+  background-color: rgb(0, 0, 0);
+  border-radius: 5px;
 
   .game__title {
+    color: $color-secondary;
     font-family: $font-primary;
-    font-size: 16px;
+    font-size: 20px;
     letter-spacing: 2px;
-    line-height: 30px;
+    line-height: 35px;
     text-align: center;
   }
 
   .game__instructions-content {
     margin-top: 20px;
-    font-size: 12px;
+    font-size: 20px;
     font-family: $font-secondary;
-    padding: 20px;
-  } // separate instructions / intro from the actual instruction of what keys to press to play 
+    padding: 5px 30px;
+    letter-spacing: 2px;
+    line-height: 25px;
+    color: $color-secondary;
+  }  
 }
 
 .game__start-screen {
@@ -50,33 +59,9 @@
       font-family: $font-primary;
       font-size: 12px;
       letter-spacing: 2px;
-      background: linear-gradient(to bottom, #ff4d00, #ffbf00);
+      background: linear-gradient(to bottom, $color-gradient-one, $color-gradient-two);
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-  .game__start-button {
-    margin-top: 20px;
-    padding: 8px 10px;
-    font-family: $font-primary;
-    font-size: 10px;
-    letter-spacing: 2px;
-    font-weight: 500;
-    border-radius: 12px;
-
-    color: $color-primary;
-
-      &:hover {
-        color: #ff4d00;
-        box-shadow: 2px 2px 2px;
-        background-color: $color-primary;
-      }
-
-      &:active {
-        box-shadow: 2px 2px 2px;
-        font-size: 8px;
-        color: #09ff00;
-      }
-  }
 }
 

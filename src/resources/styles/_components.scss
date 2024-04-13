@@ -1,0 +1,48 @@
+@use './variables' as *;
+
+.game__instructions-button {
+  margin-top: 20px;
+  font-size: 18px;
+  font-family: $font-secondary;
+  padding: 10px 30px;
+  border-radius: 12px;
+  letter-spacing: 2px;
+  color: $color-secondary;
+
+  &:hover {
+    color: $color-button-hover;
+    box-shadow: 5px 5px 2px;
+    background-color: $color-primary;
+    cursor: pointer;
+  }
+
+  &:active {
+    box-shadow: 2px 2px 2px;
+    font-size: 16px;
+    color: $color-button-active;
+  }
+}
+
+.game__start-button {
+  margin-top: 20px;
+  padding: 8px 10px;
+  font-family: $font-primary;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  border-radius: 12px;
+  color: $color-primary;
+
+    &:hover {
+      color: $color-button-hover;
+      box-shadow: 5px 5px 2px;
+      background-color: $color-primary;
+      cursor: pointer;
+    }
+
+    &:active {
+      box-shadow: 2px 2px 2px;
+      font-size: 8px;
+      color: $color-button-active;
+    }
+}
