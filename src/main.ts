@@ -148,7 +148,7 @@ instructionsButton.addEventListener('click', () => {
 
 /////////////////////////// START GAME //////////////////////////////////
 
-startButton.addEventListener('click', () => {
+// startButton.addEventListener('click', () => {
   startScreen.classList.add('hide');
   if (gameBackground) {
     gameBackground.style.backgroundImage = `url('/src/resources/environment/office(2).png')`;
@@ -161,9 +161,9 @@ startButton.addEventListener('click', () => {
 
   scoreTotal();
   animateHero();
-  setTimeout(npcRun, 2000);
+  // setTimeout(npcRun, 2000);
   
-});
+// });
 
 
 
@@ -230,7 +230,6 @@ const checkCollision = () => {
     npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
 
     setTimeout(() => {
-      // isCollision = true;
       npcCharacter12.style.display = "none";
       gravity = 5;
       jumpForwardDash = 4;
@@ -260,6 +259,8 @@ const npcRun = () => {
   checkCollision();
   setTimeout(npcRun, 1000 / npcFrameRate);
 };
+
+npcRun();
 
 // How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
 // but with at least 250px distance between them.

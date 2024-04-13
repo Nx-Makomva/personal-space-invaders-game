@@ -14,7 +14,7 @@
 
   <body>
     <div class="game__container">
-      <div class="game__instructions">
+      <div class="game__instructions hide">
         <h1 class="game__title">Personal-Space Invaders: Dodging Small Talk</h1>
         <p class="game__instructions-content">
           In this game, you play as a hooded character (in disguise) stuck at a
@@ -32,7 +32,11 @@
       </div>
       <div class="game__background">
         <div class="score-counter">Score:</div>
-
+        <div class="game__lives-container">
+          <img class="game__lives" src="src/resources/images/pixel-hearts-3.png" alt="pixelated heart">
+          <img class="game__lives" src="src/resources/images/pixel-hearts-3.png" alt="pixelated heart">
+          <img class="game__lives" src="src/resources/images/pixel-hearts-3.png" alt="pixelated heart">
+        </div>
         <div id="hero">
           <div class="hero__collision-box"></div>
         </div>
