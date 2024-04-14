@@ -1,4 +1,4 @@
-import "/src/resources/styles/styles.scss";
+import "src/resources/styles/styles.scss";
 import { Character } from "./types";
 
 // import confetti from 'canvas-confetti';
