@@ -1,27 +1,6 @@
-import "/src/resources/styles/styles.scss";
+import './resources/styles/styles.scss';
 import { Character } from "./types";
 
-// import confetti from 'canvas-confetti';
-
-/*
-  Define canvas dimensions
-  Create a canvas object that holds:
-  height, width, 
-  background colour
-  scene
-  static objects 
-
-  Objects
-    - Canvas
-    - Hero
-      - Functions inside this object for 
-          1. running, jumping, attacking and dying 
-    - Colleagues
-      - Functions:
-        1. movement e.g. speed, death
-    - Scene
-      - 
-*/
 
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
@@ -65,6 +44,8 @@ if (
 
 const heroFrameRate = 10;
 const npcFrameRate = 8;
+const attackSound = new Audio('src/resources/audio/hits/6.ogg');
+const collisionSound = new Audio('src/resources/audio/hits/ohmy.wav');
 let attackLoopCount = 0;
 let shouldClearTimeout = true;
 let scoreCounterTimeout: number;
@@ -80,7 +61,7 @@ let isAttacking = false;
 let isJumping = false;
 let jumpHeight = 110;
 let jumpSpeed = 15;
-let jumpForwardDash = 4;
+let jumpForwardDash = 5;
 let gravity = 5;
 let jumpReturnPosition = 0;
 let npcMovementSpeed = 25;
@@ -122,34 +103,25 @@ const heroImagesAttack = [
 
 ///// Move these objects to separate files /////
 const hero: Character = {
-  x: 0, // X-coordinate of the character's position
-  y: 0, // Y-coordinate of the character's position
-  width: 90, // Width of the character's box container
+  x: 0,
+  y: 0,
+  width: 90,
   height: 40,
 };
 
 const npc12: Character = {
-  x: 550, // X-coordinate of the character's position
-  y: 240, // Y-coordinate of the character's position
-  width: 20, // Width of the character's box container
+  x: 550,
+  y: 240,
+  width: 20, 
   height: 40,
 };
 
-// track current location of hero on screen
-//event listener on window for key
-// animate hero has event passed as callback function
-
-
-
-
-
-
 /////////////////////////// HERO ATTACK FUNCTIONS //////////////////////////////////
+const playAttackSound = () => {
+  attackSound.play();
+};
 
 const heroAttack = () => {
-  // const heroRect = heroCollisionBox.getBoundingClientRect();
-  // const npcRect = npcCharacter12.getBoundingClientRect();
-
   if (isAttacking) {
     if (attackLoopCount < 1) {
       if (currentImageIndex < heroImagesAttack.length) {
@@ -158,12 +130,11 @@ const heroAttack = () => {
         heroCharacter.style.top = `${hero.y}px`;
         heroCharacter.style.left = `${hero.x}px`; 
         gameBackground.style.height =  `280px`;
-        console.log(gameBackground.style.height);
-        
+     
         heroCharacter.style.backgroundImage = `url('${heroImagesAttack[currentImageIndex]}')`;
         currentImageIndex++;
         
-        heroAttackTimeout = setTimeout(heroAttack, 80);
+        heroAttackTimeout = setTimeout(heroAttack, 40);
 
         const heroRect = heroCollisionBox.getBoundingClientRect();
         const npcRect = npcCharacter12.getBoundingClientRect();
@@ -173,9 +144,12 @@ const heroAttack = () => {
           heroRect.y < npcRect.y + npcRect.height &&
           heroRect.y + heroRect.height + 120 > npcRect.y
         ) {
+          playAttackSound();
+          score += 100;
           npcCharacter12.style.width = "40px";
           npcCharacter12.style.height = "40px";
           npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
+
         }
       } else {
         attackLoopCount++;
@@ -191,11 +165,8 @@ const heroAttack = () => {
   }
 };
   
-
 /////////////////////////// HERO RUN FUNCTIONS //////////////////////////////////
 const heroRun = () => {
-  // clearTimeout(heroAttackTimeout);
-  console.log('i am running');
   isAttacking = false;
   shouldClearTimeout = true;
   clearTimeout(heroAttackTimeout);
@@ -212,14 +183,12 @@ const heroRun = () => {
 
 /////////////////////////// HERO ATTACK EVENT LISTENER //////////////////////////////////
 document.addEventListener('keydown', (event) => {
-  console.log('spacebar press');
   
   if (event.key === " " && !isAttacking && isGameStarted) {
     isAttacking = true;
 
     if (shouldClearTimeout) {
       clearTimeout(heroRunTimeout);
-      console.log(shouldClearTimeout);
     }
 
     heroAttack();
@@ -243,8 +212,14 @@ const npcRun = () => {
 
     npcCharacter12.style.display = "block";
     npc12.x = window.innerWidth;
-  }
 
+    npcMovementSpeed = Math.floor(Math.random() * 10) + 55;
+    let variation = Math.floor(Math.random() * 6) + 10;
+    npcMovementSpeed += variation;
+    console.log(npcMovementSpeed);
+    
+  }
+ 
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
   npcRunTimeout = setTimeout(npcRun, 1000 / npcFrameRate);
@@ -282,7 +257,6 @@ instructionsButton.addEventListener("click", () => {
 
 startButton.addEventListener("click", () => {
   startGame();
-  // setTimeout(npcRun, 2000);
 });
 
 const startGame = () => {
@@ -349,6 +323,7 @@ const heroJump = () => {
   if (hero.y >= -jumpHeight) {
     hero.y -= jumpSpeed;
     hero.x -= jumpForwardDash;
+    
     heroCharacter.style.top = `${hero.y}px`;
     heroCharacter.style.right = `${hero.x}px`;   
     setTimeout(heroJump, 1000 / 60);
@@ -367,13 +342,14 @@ const jump = () => {
 
 document.addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key === "ArrowUp") {
-    console.log('arrow up key pressed');
     jump();
   }
 });
 
 /////////////////////////////// COLLISION CHECK ////////////////////////////////////
-
+const playCollisionSound = () => {
+  collisionSound.play();
+};
 const checkCollision = () => {
   const heroRect = heroCollisionBox.getBoundingClientRect();
   const npcRect = npcCharacter12.getBoundingClientRect();
@@ -383,6 +359,7 @@ const checkCollision = () => {
     heroRect.y < npcRect.y + npcRect.height &&
     heroRect.y + heroRect.height > npcRect.y
   ) {
+    playCollisionSound();
     removeGameLife();
     score -= 100;
     gravity = 50;
@@ -411,6 +388,7 @@ const checkCollision = () => {
 const endGame = () => {
   clearTimeout(npcRunTimeout);
   clearTimeout(heroRunTimeout);
+  clearTimeout(heroAttackTimeout);
   clearTimeout(scoreCounterTimeout);
   gameBackground.style.animation = "none";
   gameOverScreen.classList.remove('hide');
@@ -430,15 +408,6 @@ const removeGameLife = () => {
     lifeTwo.classList.add("game__life-remove");
   } else if (livesLeft === 0) {
     lifeThree.classList.add("game__life-remove");
-    console.log("last life is gone");
     endGame();
   }
 };
-
-
-
-// How to stagger npc entries? e.g. have it randomly allocate how many show up on screen at the same time
-// but with at least 250px distance between them.
-
-// NEXT STEPS:
-// Add difficulty for npc speed increasing and number of npc increasing the longer player survives
