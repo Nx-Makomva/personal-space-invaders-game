@@ -1,4 +1,24 @@
 @use './variables' as *;
 
+@media screen and (min-width: 850px) {
+  .game__instructions{
+    width: 800px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 5%;
+  }
 
-// have media queries to have instruction screen be wider and cover other game screen
+  .game__start-screen {
+    left: 40%;
+  }
+
+
+
+}
+
