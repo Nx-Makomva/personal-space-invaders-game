@@ -147,7 +147,8 @@ const npc12: Character = {
 /////////////////////////// HERO ATTACK FUNCTIONS //////////////////////////////////
 
 const heroAttack = () => {
-  console.log('i am attack');
+  // const heroRect = heroCollisionBox.getBoundingClientRect();
+  // const npcRect = npcCharacter12.getBoundingClientRect();
 
   if (isAttacking) {
     if (attackLoopCount < 1) {
@@ -163,6 +164,19 @@ const heroAttack = () => {
         currentImageIndex++;
         
         heroAttackTimeout = setTimeout(heroAttack, 80);
+
+        const heroRect = heroCollisionBox.getBoundingClientRect();
+        const npcRect = npcCharacter12.getBoundingClientRect();
+        if (
+          heroRect.x < npcRect.x + npcRect.width &&
+          heroRect.x + heroRect.width + 120 > npcRect.x &&
+          heroRect.y < npcRect.y + npcRect.height &&
+          heroRect.y + heroRect.height + 120 > npcRect.y
+        ) {
+          npcCharacter12.style.width = "40px";
+          npcCharacter12.style.height = "40px";
+          npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
+        }
       } else {
         attackLoopCount++;
         currentImageIndex = 0;
@@ -177,9 +191,6 @@ const heroAttack = () => {
   }
 };
   
- 
-
-
 
 /////////////////////////// HERO RUN FUNCTIONS //////////////////////////////////
 const heroRun = () => {
