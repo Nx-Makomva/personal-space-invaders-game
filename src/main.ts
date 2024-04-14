@@ -91,9 +91,9 @@ const npcCharacterSprites = [
 ];
 
 const heroImagesRun = [
-  "./src/resources/character-sprites/mc-run(1).png",
-  "./src/resources/character-sprites/mc-run(2).png",
-  "./src/resources/character-sprites/mc-run(3).png",
+  "src/resources/character-sprites/mc-run(1).png",
+  "src/resources/character-sprites/mc-run(2).png",
+  "src/resources/character-sprites/mc-run(3).png",
 ];
 
 /////////////////////////// CHARACTER OBJECTS //////////////////////////////
