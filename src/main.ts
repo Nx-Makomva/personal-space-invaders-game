@@ -1,6 +1,5 @@
-import './resources/styles/styles.scss';
+import "./resources/styles/styles.scss";
 import { Character } from "./types";
-
 
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
@@ -44,8 +43,8 @@ if (
 
 const heroFrameRate = 10;
 const npcFrameRate = 8;
-const attackSound = new Audio('src/resources/audio/hits/6.ogg');
-const collisionSound = new Audio('src/resources/audio/hits/ohmy.wav');
+const attackSound = new Audio("src/resources/audio/hits/6.ogg");
+const collisionSound = new Audio("src/resources/audio/hits/ohmy.wav");
 let attackLoopCount = 0;
 let shouldClearTimeout = true;
 let scoreCounterTimeout: number;
@@ -97,11 +96,9 @@ const heroImagesAttack = [
   "src/resources/character-sprites/mc-attack19.png",
   "src/resources/character-sprites/mc-attack20.png",
   "src/resources/character-sprites/mc-attack21.png",
-]
-
+];
 /////////////////////////// CHARACTER OBJECTS //////////////////////////////
 
-///// Move these objects to separate files /////
 const hero: Character = {
   x: 0,
   y: 0,
@@ -112,7 +109,7 @@ const hero: Character = {
 const npc12: Character = {
   x: 550,
   y: 240,
-  width: 20, 
+  width: 20,
   height: 40,
 };
 
@@ -128,12 +125,12 @@ const heroAttack = () => {
         heroCharacter.style.width = `${hero.width + 100}px`;
         heroCharacter.style.height = `${hero.height + 100}px`;
         heroCharacter.style.top = `${hero.y}px`;
-        heroCharacter.style.left = `${hero.x}px`; 
-        gameBackground.style.height =  `280px`;
-     
+        heroCharacter.style.left = `${hero.x}px`;
+        gameBackground.style.height = `280px`;
+
         heroCharacter.style.backgroundImage = `url('${heroImagesAttack[currentImageIndex]}')`;
         currentImageIndex++;
-        
+
         heroAttackTimeout = setTimeout(heroAttack, 40);
 
         const heroRect = heroCollisionBox.getBoundingClientRect();
@@ -149,7 +146,6 @@ const heroAttack = () => {
           npcCharacter12.style.width = "40px";
           npcCharacter12.style.height = "40px";
           npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[7]}')`;
-
         }
       } else {
         attackLoopCount++;
@@ -164,13 +160,13 @@ const heroAttack = () => {
     }
   }
 };
-  
+
 /////////////////////////// HERO RUN FUNCTIONS //////////////////////////////////
 const heroRun = () => {
   isAttacking = false;
   shouldClearTimeout = true;
   clearTimeout(heroAttackTimeout);
-  
+
   heroCharacter.style.width = `${hero.width}px`;
   heroCharacter.style.height = `${hero.height}px`;
   heroCharacter.style.backgroundImage = `url('${heroImagesRun[currentImageIndex]}')`;
@@ -182,8 +178,7 @@ const heroRun = () => {
 };
 
 /////////////////////////// HERO ATTACK EVENT LISTENER //////////////////////////////////
-document.addEventListener('keydown', (event) => {
-  
+document.addEventListener("keydown", (event) => {
   if (event.key === " " && !isAttacking && isGameStarted) {
     isAttacking = true;
 
@@ -192,7 +187,7 @@ document.addEventListener('keydown', (event) => {
     }
 
     heroAttack();
-  }    
+  }
 });
 
 /////////////////////////// NPC RUN FUNCTION //////////////////////////////////
@@ -217,15 +212,13 @@ const npcRun = () => {
     let variation = Math.floor(Math.random() * 6) + 10;
     npcMovementSpeed += variation;
     console.log(npcMovementSpeed);
-    
   }
- 
+
   npc12.x -= npcMovementSpeed;
   npcCharacter12.style.left = `${npc12.x}px`;
   npcRunTimeout = setTimeout(npcRun, 1000 / npcFrameRate);
   checkCollision();
 };
-
 
 /////////////////////////// SCORE COUNT FUNCTION //////////////////////////////////
 const scoreTotal = () => {
@@ -246,7 +239,7 @@ const scoreTotal = () => {
 
 startScreen.classList.add("hide");
 gameBackground.style.backgroundImage = "none";
-gameOverScreen.classList.add('hide');
+gameOverScreen.classList.add("hide");
 
 instructionsButton.addEventListener("click", () => {
   instructionsScreen.classList.add("hide");
@@ -276,9 +269,7 @@ const startGame = () => {
   scoreTotal();
   heroRun();
   npcRun();
-
-}
-
+};
 
 /////////////////////////// RESTART GAME //////////////////////////////////
 const restartGame = () => {
@@ -298,8 +289,7 @@ const restartGame = () => {
   scoreTotal();
   heroRun();
   npcRun();
-
-}
+};
 
 /////////////////////////// HERO JUMP AND FALL FUNCTIONS //////////////////////////////////
 
@@ -319,13 +309,13 @@ const fall = () => {
   }
 };
 
-const heroJump = () => { 
+const heroJump = () => {
   if (hero.y >= -jumpHeight) {
     hero.y -= jumpSpeed;
     hero.x -= jumpForwardDash;
-    
+
     heroCharacter.style.top = `${hero.y}px`;
-    heroCharacter.style.right = `${hero.x}px`;   
+    heroCharacter.style.right = `${hero.x}px`;
     setTimeout(heroJump, 1000 / 60);
   } else {
     fall();
@@ -334,11 +324,10 @@ const heroJump = () => {
 
 const jump = () => {
   if (!isJumping) {
-    isJumping = true; 
+    isJumping = true;
     heroJump();
   }
 };
-
 
 document.addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key === "ArrowUp") {
@@ -391,13 +380,13 @@ const endGame = () => {
   clearTimeout(heroAttackTimeout);
   clearTimeout(scoreCounterTimeout);
   gameBackground.style.animation = "none";
-  gameOverScreen.classList.remove('hide');
+  gameOverScreen.classList.remove("hide");
 };
 
-gameOverScreenButton.addEventListener('click', () => {
-  gameOverScreen.classList.add('hide');
+gameOverScreenButton.addEventListener("click", () => {
+  gameOverScreen.classList.add("hide");
   restartGame();
-})
+});
 
 const removeGameLife = () => {
   livesLeft -= 1;
