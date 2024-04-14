@@ -80,20 +80,20 @@ let npcMovementSpeed = 25;
 
 /////////////////////////// CHARACTER IMAGES //////////////////////////////
 const npcCharacterSprites = [
-  "/src/resources/character-sprites/npc-0.png",
-  "/src/resources/character-sprites/npc-2.png",
-  "/src/resources/character-sprites/npc-4.png",
-  "/src/resources/character-sprites/npc-6.png",
-  "/src/resources/character-sprites/npc-8.png",
-  "/src/resources/character-sprites/npc-10.png",
-  "/src/resources/character-sprites/npc-12.png",
-  "/src/resources/images/WHAM.png",
+  "./src/resources/character-sprites/npc-0.png",
+  "./src/resources/character-sprites/npc-2.png",
+  "./src/resources/character-sprites/npc-4.png",
+  "./src/resources/character-sprites/npc-6.png",
+  "./src/resources/character-sprites/npc-8.png",
+  "./src/resources/character-sprites/npc-10.png",
+  "./src/resources/character-sprites/npc-12.png",
+  "./src/resources/images/WHAM.png",
 ];
 
 const heroImagesRun = [
-  "/src/resources/character-sprites/mc-run(1).png",
-  "/src/resources/character-sprites/mc-run(2).png",
-  "/src/resources/character-sprites/mc-run(3).png",
+  "./src/resources/character-sprites/mc-run(1).png",
+  "./src/resources/character-sprites/mc-run(2).png",
+  "./src/resources/character-sprites/mc-run(3).png",
 ];
 
 /////////////////////////// CHARACTER OBJECTS //////////////////////////////
