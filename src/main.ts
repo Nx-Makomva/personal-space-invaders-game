@@ -10,7 +10,7 @@ import npcImgRun4 from './resources/character-sprites/npc-6.png';
 import npcImgRun5 from './resources/character-sprites/npc-8.png';
 import npcImgRun6 from './resources/character-sprites/npc-10.png';
 import npcImgRun7 from './resources/character-sprites/npc-12.png';
-import npcImgWham from './resources/images/WHAM.png';
+import npcImgWham from '../public/WHAM.png';
 import heroImgAttack1 from './resources/character-sprites/mc-attack00.png';
 import heroImgAttack2 from './resources/character-sprites/mc-attack02.png';
 import heroImgAttack3 from './resources/character-sprites/mc-attack03.png';
@@ -23,7 +23,7 @@ import heroImgAttack9 from './resources/character-sprites/mc-attack18.png';
 import heroImgAttack10 from './resources/character-sprites/mc-attack19.png';
 import heroImgAttack11 from './resources/character-sprites/mc-attack20.png';
 import heroImgAttack12 from './resources/character-sprites/mc-attack21.png';
-import backgroundImg from './resources/environment/office(2).png';
+import backgroundImg from '../public/office(2).png';
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
 const npcCharacter12 = document.querySelector<HTMLDivElement>(".npc-12");
