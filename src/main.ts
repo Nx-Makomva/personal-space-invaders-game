@@ -10,7 +10,7 @@ import npcImgRun4 from './resources/character-sprites/npc-6.png';
 import npcImgRun5 from './resources/character-sprites/npc-8.png';
 import npcImgRun6 from './resources/character-sprites/npc-10.png';
 import npcImgRun7 from './resources/character-sprites/npc-12.png';
-import npcImgWham from '../public/WHAM.png';
+import npcImgWham from './resources/character-sprites/wham.png';
 import heroImgAttack1 from './resources/character-sprites/mc-attack00.png';
 import heroImgAttack2 from './resources/character-sprites/mc-attack02.png';
 import heroImgAttack3 from './resources/character-sprites/mc-attack03.png';
@@ -23,7 +23,10 @@ import heroImgAttack9 from './resources/character-sprites/mc-attack18.png';
 import heroImgAttack10 from './resources/character-sprites/mc-attack19.png';
 import heroImgAttack11 from './resources/character-sprites/mc-attack20.png';
 import heroImgAttack12 from './resources/character-sprites/mc-attack21.png';
-import backgroundImg from '../public/office(2).png';
+import backgroundImg from './resources/character-sprites/office(2).png';
+import attackAudio from './resources/audio/hits/6.ogg';
+import collisionAudio from './resources/audio/hits/ohmy.wav';
+
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
 const npcCharacter12 = document.querySelector<HTMLDivElement>(".npc-12");
@@ -66,8 +69,8 @@ if (
 
 const heroFrameRate = 10;
 const npcFrameRate = 8;
-const attackSound = new Audio("src/resources/audio/hits/6.ogg");
-const collisionSound = new Audio("src/resources/audio/hits/ohmy.wav");
+const attackSound = new Audio(attackAudio);
+const collisionSound = new Audio(collisionAudio);
 let attackLoopCount = 0;
 let shouldClearTimeout = true;
 let scoreCounterTimeout: number;
@@ -286,6 +289,7 @@ const startGame = () => {
     Math.random() * (npcCharacterSprites.length - 1)
   );
   npcCharacter12.style.backgroundImage = `url('${npcCharacterSprites[randomImageIndex]}')`;
+  
 
   scoreTotal();
   heroRun();
