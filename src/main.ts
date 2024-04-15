@@ -1,6 +1,29 @@
 import "./resources/styles/styles.scss";
 import { Character } from "./types";
-
+import heroImgRun1 from './resources/character-sprites/mc-run(1).png';
+import heroImgRun2 from './resources/character-sprites/mc-run(2).png';
+import heroImgRun3 from './resources/character-sprites/mc-run(3).png';
+import npcImgRun1 from './resources/character-sprites/npc-0.png';
+import npcImgRun2 from './resources/character-sprites/npc-2.png';
+import npcImgRun3 from './resources/character-sprites/npc-4.png';
+import npcImgRun4 from './resources/character-sprites/npc-6.png';
+import npcImgRun5 from './resources/character-sprites/npc-8.png';
+import npcImgRun6 from './resources/character-sprites/npc-10.png';
+import npcImgRun7 from './resources/character-sprites/npc-12.png';
+import npcImgWham from './resources/images/WHAM.png';
+import heroImgAttack1 from './resources/character-sprites/mc-attack00.png';
+import heroImgAttack2 from './resources/character-sprites/mc-attack02.png';
+import heroImgAttack3 from './resources/character-sprites/mc-attack03.png';
+import heroImgAttack4 from './resources/character-sprites/mc-attack04.png';
+import heroImgAttack5 from './resources/character-sprites/mc-attack05.png';
+import heroImgAttack6 from './resources/character-sprites/mc-attack06.png';
+import heroImgAttack7 from './resources/character-sprites/mc-attack07.png';
+import heroImgAttack8 from './resources/character-sprites/mc-attack17.png';
+import heroImgAttack9 from './resources/character-sprites/mc-attack18.png';
+import heroImgAttack10 from './resources/character-sprites/mc-attack19.png';
+import heroImgAttack11 from './resources/character-sprites/mc-attack20.png';
+import heroImgAttack12 from './resources/character-sprites/mc-attack21.png';
+import backgroundImg from './resources/environment/office(2).png';
 /////////////////////////// QUERY SELECTOR /////////////////////////////////
 const heroCharacter = document.querySelector<HTMLDivElement>("#hero");
 const npcCharacter12 = document.querySelector<HTMLDivElement>(".npc-12");
@@ -67,35 +90,35 @@ let npcMovementSpeed = 25;
 
 /////////////////////////// CHARACTER IMAGES //////////////////////////////
 const npcCharacterSprites = [
-  "src/resources/character-sprites/npc-0.png",
-  "src/resources/character-sprites/npc-2.png",
-  "src/resources/character-sprites/npc-4.png",
-  "src/resources/character-sprites/npc-6.png",
-  "src/resources/character-sprites/npc-8.png",
-  "src/resources/character-sprites/npc-10.png",
-  "src/resources/character-sprites/npc-12.png",
-  "src/resources/images/WHAM.png",
+  npcImgRun1,
+  npcImgRun2,
+  npcImgRun3,
+  npcImgRun4,
+  npcImgRun5,
+  npcImgRun6,
+  npcImgRun7,
+  npcImgWham,
 ];
 
 const heroImagesRun = [
-  "src/resources/character-sprites/mc-run(1).png",
-  "src/resources/character-sprites/mc-run(2).png",
-  "src/resources/character-sprites/mc-run(3).png",
+  heroImgRun1,
+  heroImgRun2,
+  heroImgRun3,
 ];
 
 const heroImagesAttack = [
-  "src/resources/character-sprites/mc-attack00.png",
-  "src/resources/character-sprites/mc-attack02.png",
-  "src/resources/character-sprites/mc-attack03.png",
-  "src/resources/character-sprites/mc-attack04.png",
-  "src/resources/character-sprites/mc-attack05.png",
-  "src/resources/character-sprites/mc-attack06.png",
-  "src/resources/character-sprites/mc-attack07.png",
-  "src/resources/character-sprites/mc-attack17.png",
-  "src/resources/character-sprites/mc-attack18.png",
-  "src/resources/character-sprites/mc-attack19.png",
-  "src/resources/character-sprites/mc-attack20.png",
-  "src/resources/character-sprites/mc-attack21.png",
+  heroImgAttack1,
+  heroImgAttack2,
+  heroImgAttack3,
+  heroImgAttack4,
+  heroImgAttack5,
+  heroImgAttack6,
+  heroImgAttack7,
+  heroImgAttack8,
+  heroImgAttack9,
+  heroImgAttack10,
+  heroImgAttack11,
+  heroImgAttack12,
 ];
 /////////////////////////// CHARACTER OBJECTS //////////////////////////////
 
@@ -174,7 +197,6 @@ const heroRun = () => {
   heroCollisionBox.style.width = `${hero.width - 30}px`;
   heroCollisionBox.style.height = `${hero.height}px`;
   heroRunTimeout = setTimeout(heroRun, 1000 / heroFrameRate);
-  // }
 };
 
 /////////////////////////// HERO ATTACK EVENT LISTENER //////////////////////////////////
@@ -211,7 +233,6 @@ const npcRun = () => {
     npcMovementSpeed = Math.floor(Math.random() * 10) + 55;
     let variation = Math.floor(Math.random() * 6) + 10;
     npcMovementSpeed += variation;
-    console.log(npcMovementSpeed);
   }
 
   npc12.x -= npcMovementSpeed;
@@ -256,7 +277,7 @@ const startGame = () => {
   isGameStarted = true;
   startScreen.classList.remove("show-flex");
   if (gameBackground) {
-    gameBackground.style.backgroundImage = `url('src/resources/environment/office(2).png')`;
+    gameBackground.style.backgroundImage = `url('${backgroundImg}')`;
     gameBackground.style.animation = "sceneMovement 9s linear infinite";
   }
 
@@ -285,7 +306,6 @@ const restartGame = () => {
 
   gameBackground.style.animation = "sceneMovement 9s linear infinite";
 
-  // startButton.disabled = false
   scoreTotal();
   heroRun();
   npcRun();
