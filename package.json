@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Nx-Makomva.github.io/personal-space-invaders-game ",
+  "homepage": "https://Nx-Makomva.github.io/personal-space-invaders-game",
   "author": "Nic Makomva",
   "scripts": {
     "dev": "vite",
@@ -19,7 +19,6 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "canvas-confetti": "^1.9.2",
-    "kaboom": "^3000.1.17"
+    "canvas-confetti": "^1.9.2"
   }
 }
